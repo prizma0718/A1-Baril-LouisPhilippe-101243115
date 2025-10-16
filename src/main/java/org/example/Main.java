@@ -257,5 +257,13 @@ public class Main {
                 //break;
             }
         }
+
+        // Menu Display
+        output.println("----- MAIN MENU -----");
+        output.println("1. Borrow a book");
+        output.println("2. Return a book");
+        output.println("3. Logout");
+        output.flush();
+        String option = input.nextLine();
     }
 }
