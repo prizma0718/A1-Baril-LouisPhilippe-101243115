@@ -171,7 +171,7 @@ public class Main {
     }
 
     public void setBookHold(int bookId, int userId){
-        //this.GetBook(bookId).setHoldId(userId);
+        this.GetBook(bookId).setHoldId(userId);
     }
 
     public void Authentication(Scanner input, PrintWriter output){
