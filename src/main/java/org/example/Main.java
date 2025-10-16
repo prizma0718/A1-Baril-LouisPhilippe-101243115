@@ -50,6 +50,10 @@ public class Main {
             this.borrowed = value;
         }
 
+        public void setBorrowedId(int userId){
+
+        }
+
         public int getBorrowId(){
             return this.borrowId;
         }
@@ -61,6 +65,8 @@ public class Main {
         public void setHoldId(int userId){
             this.holdId = userId;
         }
+
+
     }
 
     public class User{

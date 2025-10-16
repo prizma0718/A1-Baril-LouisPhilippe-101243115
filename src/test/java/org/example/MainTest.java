@@ -376,14 +376,132 @@ public class MainTest {
     }
 
     // TODO: RESP-08 Book Borrowing Initial Display
-    // TODO: RESP_08_01 Current Book Count Prompt
+    // TODO: RESP_08_01 Current Book Count Valid
     // Check if borrowing books display properly
+    @Test
+    @DisplayName("Current Book Count Valid")
+    void RESP_08_test_01(){
+        Main program = new Main();
+        program.InitializeLibrary();
 
-    // TODO: RESP_08_02 Collection Prompt
+        String input = "user01\npass01\n1\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // 3 Borrowed Books, should be valid
+        program.GetBook(1).setBorrowedId(0);
+        program.GetBook(2).setBorrowedId(0);
+        program.GetBook(3).setBorrowedId(0);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if(output.toString().contains("Number of borrowed books: 3")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_08_02 Current Book Count Invalid
+    // Check if borrowing books display properly
+    @Test
+    @DisplayName("Current Book Count Invalid")
+    void RESP_08_test_02(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // 4 Borrowed Books, should be invalid.
+        program.GetBook(1).setBorrowedId(0);
+        program.GetBook(2).setBorrowedId(0);
+        program.GetBook(3).setBorrowedId(0);
+        program.GetBook(4).setBorrowedId(0);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if(output.toString().contains("Too many borrowing books.")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_08_03 Book Collection Checked Prompt
     // Check if borrowing collection display properly
+    @Test
+    @DisplayName("Book Collection Prompt")
+    void RESP_08_test_03(){
+        Main program = new Main();
+        program.InitializeLibrary();
 
-    // TODO: RESP_08_03 Books Borrowed Prompt
+        String input = "user01\npass01\n1\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // Check a book
+        program.GetBook(1).setBorrowedId(0);
+
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if(output.toString().contains("Checked Out")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_08_04
+    @Test
+    @DisplayName("Book Collection Onhold Prompt")
+    void RESP_08_test_04(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // Onhold a book
+        program.GetBook(1).setHoldId(0);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if(output.toString().contains("On Hold")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_08_05 Books Borrowed Prompt
     // Check if borrowed book information display properly
+    @Test
+    @DisplayName("Book Borrowed Prompt")
+    void RESP_08_test_05(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n5"; // Borrow the 5th book
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if(output.toString().contains("The Silent Symphony book borrowed.")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP-09 Book Borrowing Validation
     // TODO: RESP_09_01 Book Borrowing Valid
