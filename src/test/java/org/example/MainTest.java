@@ -36,9 +36,9 @@ public class MainTest {
 
         int catalogueSize = program.GetCatalogueSize(); // Get the Value
 
-        program.OverwriteBook(1, "Whispers in the Fog","Eleanor Vance", false);
-        program.OverwriteBook(10, "When Stars Align", "Nathaniel Grey", false);
-        program.OverwriteBook(20, "Letters from the Void", "Samuel Quill", false);
+        program.OverwriteBook(0, "Whispers in the Fog","Eleanor Vance", false);
+        program.OverwriteBook(9, "When Stars Align", "Nathaniel Grey", false);
+        program.OverwriteBook(19, "Letters from the Void", "Samuel Quill", false);
 
         // Verify the Entry
         boolean noMismatch = false;

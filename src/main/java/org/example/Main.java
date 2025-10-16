@@ -17,24 +17,22 @@ public class Main {
         Main program = new Main();
     }
 
-    class Book{
+    public class Book{
         String title;
         String author;
         boolean borrowed;
 
         public String getTitle(){
-            return "";
+            return this.title;
         }
 
         public String getAuthor(){
-            return "";
+            return this.author;
         }
 
         public Boolean getBorrowed(){
-            return true;
+            return this.borrowed;
         }
-
-
     }
 
     ArrayList<Book> catalogue = new ArrayList<Book>();
@@ -43,25 +41,54 @@ public class Main {
     // InitializeLibrary Class Creation
 
     public void InitializeLibrary(){
+        catalogue = new ArrayList<Book>();
 
+        // Add the 20 Books into the Catalogue
+        this.AddBook("Whispers in the Fog", "Eleanor Vance", false);
+        this.AddBook("The Clockwork Garden", "Marcus Halloway", false);
+        this.AddBook("Shadows of the Forgotten", "Lila Brenner", false);
+        this.AddBook("A Lantern for Tomorrow", "Thomas Evers", false);
+        this.AddBook("The Silent Symphony", "Clara Whitmore", false);
+        this.AddBook("Beneath the Crimson Sky", "Julian Rook", false);
+        this.AddBook("Threads of Infinity", "Isabelle Marlowe", false);
+        this.AddBook("The Last Lighthouse Keeper", "Adrian Kells", false);
+        this.AddBook("Echoes of Amber", "Sophie Delacroix", false);
+        this.AddBook("When Stars Align", "Nathaniel Grey", false);
+        this.AddBook("The Paper Kingdom", "Victoria Ames", false);
+        this.AddBook("A Door in the Mountains", "Daniel Forsyth", false);
+        this.AddBook("The Forgotten Map", "Helena Carrick", false);
+        this.AddBook("Tides of Glass", "Oliver Bain", false);
+        this.AddBook("Voices of the Deep", "Madeline Frost", false);
+        this.AddBook("The Painter’s Secret", "Gabriel Thorne", false);
+        this.AddBook("Winds of Yesterday", "Emilia Hart", false);
+        this.AddBook("Beneath Neon Skies", " Jasper Linwood", false);
+        this.AddBook("The Alchemist’s Shadow", "Fiona Delaney", false);
+        this.AddBook("Letters from the Void", "Samuel Quill", false);
+
+    }
+
+    public void AddBook(String title, String author, Boolean borrowed){
+        Book b = new Book();
+        b.title = title;
+        b.author = author;
+        b.borrowed = borrowed;
+        catalogue.add(b);
     }
 
     public Book GetBook(int i){
-        Book b = new Book();
-        b.title = "Title";
-        b.author = "Author";
-        b.borrowed = true;
-        return b;
+        return catalogue.get(i);
     }
 
-
-
     public int GetCatalogueSize(){
-        return 0;
+        return this.catalogue.size();
     }
 
     public void OverwriteBook(int index, String title, String author, Boolean borrowed){
-
+        Book b = new Book();
+        b.title = title;
+        b.author = author;
+        b.borrowed = borrowed;
+        catalogue.set(index, b);
     }
 
 }
