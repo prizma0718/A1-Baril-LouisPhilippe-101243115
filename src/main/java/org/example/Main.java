@@ -344,16 +344,48 @@ public class Main {
             for(int i = 0; i < this.GetCatalogueSize(); i++){
                 if(this.GetBook(i).getBorrowId() != 999){
                     String date = this.GetBook(i).getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                    output.println(this.GetBook(i).getTitle() + " | Checked Out, Due: " + date);
+                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | Checked Out, Due: " + date);
                 }
                 else if(this.GetBook(i).getHoldId() != 999){
-                    output.println(this.GetBook(i).getTitle() + " | On Hold");
+                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | On Hold");
                 }
                 else{
-                    output.println(this.GetBook(i).getTitle() + " | Available");
+                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | Available");
                 }
             }
             output.flush();
+
+
+            while (true) {
+                int inputValue = 0;
+                output.println("Enter the # of the Book you want to borrow.");
+                output.flush();
+                try {
+                    inputValue = Integer.parseInt(input.nextLine()); // Read input as string and parse
+                } catch (NumberFormatException e) {
+                    output.println("Invalid input! Please enter a valid integer.");
+                    output.flush();
+                } catch (java.util.NoSuchElementException e) {
+                    output.println("Value missing. Exiting safely.");
+                    output.flush();
+                    break;
+                }
+
+
+                if(inputValue >= 1 && inputValue <= 20){
+                    if(this.GetBook(inputValue-1).getBorrowId() != 999 || this.GetBook(inputValue-1).getHoldId() != 999){
+                        output.println("Book borrowing unsuccessful. Someone is borrowing this book.");
+                        output.flush();
+                        break;
+                    }
+                    else{
+                        this.GetBook(inputValue-1).setBorrowedId(userId);
+                        output.println(this.GetBook(inputValue-1).getTitle() + " Book successfully borrowed.");
+                        output.flush();
+                        break;
+                    }
+                }
+            }
 
         }
         else{
