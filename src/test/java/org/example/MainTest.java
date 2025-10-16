@@ -482,6 +482,56 @@ public class MainTest {
 
     }
 
+    // TODO: RESP-09 Book Borrowing Validation
+    // TODO: RESP_09_01 Book Borrowing Valid
+    // In case the book can be borrowed
+    @Test
+    @DisplayName("Book Borrowing Valid")
+    void RESP_09_test_01(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n7\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if(output.toString().contains("Threads of Infinity Book successfully borrowed.")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+
+    }
+
+    // TODO: RESP_09_02 Book Borrowing Invalid
+    // In case the book cannot be borrowed
+    @Test
+    @DisplayName("Book Borrowing Valid")
+    void RESP_09_test_02(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n7\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // Book borrowed by someone else
+        program.GetBook(6).setHoldId(1);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if(output.toString().contains("Book borrowing unsuccessful. Someone is borrowing this book.")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+
+    }
+
     // TODO: RESP-10 Book Borrowing Process
     // TODO: RESP_10_01 Setting up the 14-day period
     // So that book is borrowed for next 14 days
