@@ -290,7 +290,90 @@ public class MainTest {
     }
 
     // TODO: RESP-07 Main Menu Navigation
+    // TODO: RESP_07_01 Borrowing Prompt
     // Main menu Options Navigation Process
+    @Test
+    @DisplayName("Borrowing Book Navigation")
+    void RESP_07_test_01(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n"; // Valid Credentials
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if(output.toString().contains("----- BORROWING -----")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_07_02 Returning Prompt
+    @Test
+    @DisplayName("Returning Book Navigation")
+    void RESP_07_test_02(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n2\n"; // Valid Credentials
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if(output.toString().contains("----- RETURNING -----")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_07_03 Logout Prompt
+    @Test
+    @DisplayName("Logout Navigation")
+    void RESP_07_test_03(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n3\n"; // Valid Credentials
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if(output.toString().contains("Logout currently in progress...")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_07_04 Error Prompt
+    @Test
+    @DisplayName("Error Navigation")
+    void RESP_07_test_04(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n4\n"; // Invalid Output
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if(output.toString().contains("Invalid Choice. Please Retry.")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP-08 Book Borrowing Initial Display
     // TODO: RESP_08_01 Current Book Count Prompt
