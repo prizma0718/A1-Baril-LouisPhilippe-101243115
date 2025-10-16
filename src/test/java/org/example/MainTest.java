@@ -15,12 +15,69 @@ public class MainTest {
     // TODO: RESP-01 System Book Collection Initialization
     // TODO: RESP_01_01 Book Collection Count
     // Check if the collection contains 20 books
+    @Test
+    @DisplayName("Book Collection Count Check")
+    void RESP_01_test_01(){
+        Main program = new Main();
+        program.InitializeLibrary();
 
-    // TODO: RESP_01_02 Specific Book Information
-    // Check if 1th, 10th and 20th book if they are correct, or all at same time
+        // The Catalogue should not be empty, with 20 books
+        int catalogueSize = program.GetCatalogueSize(); // Get the Deck Size
+        assertEquals(20, catalogueSize); // Check for the test
+    }
+
+    // TODO: RESP_01_02 Specific Book Information Matching
+    // Check if 1th, 10th and 20th book if they are correct
+    @Test
+    @DisplayName("Book Collection Information Check")
+    void RESP_01_test_02(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        int catalogueSize = program.GetCatalogueSize(); // Get the Value
+
+        program.OverwriteBook(1, "Whispers in the Fog","Eleanor Vance", false);
+        program.OverwriteBook(10, "When Stars Align", "Nathaniel Grey", false);
+        program.OverwriteBook(20, "Letters from the Void", "Samuel Quill", false);
+
+        // Verify the Entry
+        boolean noMismatch = false;
+
+        if (program.GetBook(0).getTitle().equals("Whispers in the Fog") && program.GetBook(0).getAuthor().equals("Eleanor Vance")){
+            if (program.GetBook(9).getTitle().equals("When Stars Align") && program.GetBook(9).getAuthor().equals("Nathaniel Grey")){
+                if (program.GetBook(19).getTitle().equals("Letters from the Void") && program.GetBook(19).getAuthor().equals("Samuel Quill")){
+                    noMismatch = true;
+                }
+            }
+        }
+
+
+        assertTrue(noMismatch && (program.GetCatalogueSize() != 0));
+    }
 
     // TODO: RESP_01_03 All Books Availability
     // Check if all books are listed as available at initialization
+    @Test
+    @DisplayName("Book Collection Availability Check")
+    void RESP_01_test_03(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        int catalogueSize = program.GetCatalogueSize();
+
+        // test 2 - should be no duplicate values in deck, Computing
+        boolean noMismatch = true;
+        for (int i = 0; i < catalogueSize; i++){
+            for (int j = 0; j < program.GetCatalogueSize(); j++){
+                if (program.GetBook(i).getBorrowed()){
+                    noMismatch = false;
+                }
+            }
+        }
+
+        // The Catalogue should return true if all books are marked as available
+        assertTrue(noMismatch && (program.GetCatalogueSize() != 0));
+    }
 
     // TODO: RESP-02 System user accounts initialization
     // TODO: RESP_02_01 User Collection Count

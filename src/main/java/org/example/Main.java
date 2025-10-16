@@ -16,4 +16,52 @@ public class Main {
 
         Main program = new Main();
     }
+
+    class Book{
+        String title;
+        String author;
+        boolean borrowed;
+
+        public String getTitle(){
+            return "";
+        }
+
+        public String getAuthor(){
+            return "";
+        }
+
+        public Boolean getBorrowed(){
+            return true;
+        }
+
+
+    }
+
+    ArrayList<Book> catalogue = new ArrayList<Book>();
+
+    // Catalogue Class Creation
+    // InitializeLibrary Class Creation
+
+    public void InitializeLibrary(){
+
+    }
+
+    public Book GetBook(int i){
+        Book b = new Book();
+        b.title = "Title";
+        b.author = "Author";
+        b.borrowed = true;
+        return b;
+    }
+
+
+
+    public int GetCatalogueSize(){
+        return 0;
+    }
+
+    public void OverwriteBook(int index, String title, String author, Boolean borrowed){
+
+    }
+
 }
