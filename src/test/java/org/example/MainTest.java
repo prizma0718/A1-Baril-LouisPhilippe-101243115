@@ -269,6 +269,25 @@ public class MainTest {
     // TODO: RESP-06 Main Menu Displaying
     // TODO: RESP_06_01 Main Menu Prompt
     // Check if main menu displays correctly
+    @Test
+    @DisplayName("Main Menu Prompt")
+    void RESP_06_test_01(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n"; // Valid Credentials
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if(output.toString().contains("----- MAIN MENU -----")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP-07 Main Menu Navigation
     // Main menu Options Navigation Process
