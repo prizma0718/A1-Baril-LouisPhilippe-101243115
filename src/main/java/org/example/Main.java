@@ -1,7 +1,9 @@
 package org.example;
 
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 // Library Function
@@ -11,10 +13,17 @@ public class Main {
         // to see how IntelliJ IDEA suggests fixing it.
         System.out.println("COMP 4004 - Library Management System");
 
+        //String input = "user01\npass02\n";
+
         Scanner input = new Scanner(System.in);
         PrintWriter output = new PrintWriter(System.out);
 
         Main program = new Main();
+        program.InitializeLibrary();
+
+        //program.Authentication(new Scanner(input), output);
+        //program.Authentication(input, output);
+
     }
 
     public class Book{
@@ -38,7 +47,7 @@ public class Main {
     public class User{
         String username;
         String password;
-        Boolean borrowing;
+        boolean borrowing;
 
         public String getUsername(){
             return this.username;
@@ -48,7 +57,7 @@ public class Main {
             return this.password;
         }
 
-        public Boolean getBorrowing(){
+        public boolean getBorrowing(){
             return this.borrowing;
         }
     }
@@ -92,7 +101,7 @@ public class Main {
 
     }
 
-    public void AddBook(String title, String author, Boolean borrowed){
+    public void AddBook(String title, String author, boolean borrowed){
         Book b = new Book();
         b.title = title;
         b.author = author;
@@ -108,7 +117,7 @@ public class Main {
         return this.catalogue.size();
     }
 
-    public void OverwriteBook(int index, String title, String author, Boolean borrowed){
+    public void OverwriteBook(int index, String title, String author, boolean borrowed){
         Book b = new Book();
         b.title = title;
         b.author = author;
@@ -124,7 +133,7 @@ public class Main {
         return users.get(i);
     }
 
-    public void AddUser(String username, String password, Boolean borrowing){
+    public void AddUser(String username, String password, boolean borrowing){
         User u = new User();
         u.username = username;
         u.password = password;
@@ -133,6 +142,56 @@ public class Main {
     }
 
     public void Authentication(Scanner input, PrintWriter output){
+
+        boolean valid = false;
+        String username = "";
+        String password = "";
+
+        // Main Header
+        output.println("Welcome to the Library Management System.");
+        output.println("Please log in.");
+        output.flush();
+
+        while(valid == false){
+
+            // Username Prompt
+            output.println("Username:");
+            output.flush();
+
+            try {
+                username = input.nextLine();
+            } catch (java.util.NoSuchElementException e) {
+                System.out.println("Username missing. Exiting safely.");
+                break;
+            }
+
+            // Password Prompt
+            output.println("Password:");
+            output.flush();
+            try {
+                password = input.nextLine();
+            } catch (java.util.NoSuchElementException e) {
+                System.out.println("Password missing. Exiting safely.");
+                break;
+            }
+
+            // Validation Process
+            for(int i = 0; i < this.GetUsersSize(); i++){
+                if(this.users.get(i).getUsername().equals(username) && this.users.get(i).getPassword().equals(password)){
+                    valid = true;
+                }
+            }
+
+            if(!valid){
+                output.println("Login invalid, please retry.");
+
+            }
+            else{
+                output.println("Welcome, " + username + "!");
+            }
+            output.flush();
+        }
+
 
     }
 }

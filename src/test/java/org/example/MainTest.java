@@ -184,7 +184,7 @@ public class MainTest {
         Main program = new Main();
         program.InitializeLibrary();
 
-        String input = "user01\npass01"; // No input Yet
+        String input = "user01\npass01\n"; // No input Yet
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
@@ -203,7 +203,7 @@ public class MainTest {
         Main program = new Main();
         program.InitializeLibrary();
 
-        String input = "user99\npass99"; // Invalid credentials
+        String input = "user99\npass99\n"; // Invalid credentials
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
