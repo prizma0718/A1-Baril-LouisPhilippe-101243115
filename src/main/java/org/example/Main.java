@@ -13,9 +13,9 @@ public class Main {
         // to see how IntelliJ IDEA suggests fixing it.
         System.out.println("COMP 4004 - Library Management System");
 
-        //String input = "user01\npass02\n";
+        String input = "user01\npass01\n";
 
-        Scanner input = new Scanner(System.in);
+        //Scanner input = new Scanner(System.in);
         PrintWriter output = new PrintWriter(System.out);
 
         Main program = new Main();
@@ -30,6 +30,9 @@ public class Main {
         String title;
         String author;
         boolean borrowed;
+        int borrowId;
+        boolean hold;
+        int holdId;
 
         public String getTitle(){
             return this.title;
@@ -44,7 +47,19 @@ public class Main {
         }
 
         public void setBorrowed(boolean value){
+            this.borrowed = value;
+        }
 
+        public int getBorrowId(){
+            return this.borrowId;
+        }
+
+        public int getHoldId(){
+            return this.holdId;
+        }
+
+        public void setHoldId(int userId){
+            this.holdId = userId;
         }
     }
 
@@ -114,6 +129,8 @@ public class Main {
         b.title = title;
         b.author = author;
         b.borrowed = borrowed;
+        b.holdId = 999;
+        b.hold = false;
         catalogue.add(b);
     }
 
@@ -154,7 +171,7 @@ public class Main {
     }
 
     public void setBookHold(int bookId, int userId){
-
+        //this.GetBook(bookId).setHoldId(userId);
     }
 
     public void Authentication(Scanner input, PrintWriter output){
@@ -218,5 +235,27 @@ public class Main {
     }
     public void Start(Scanner input, PrintWriter output) {
         output.println("Logged in as " + currentUser.getUsername() + ".");
+        output.flush();
+
+        // Get the UserID of the Current User
+        int userId = 0;
+        for(int i = 0; i < this.GetUsersSize(); i++){
+            if(this.GetUser(i).getUsername().equals(currentUser.getUsername())){
+                userId = i;
+            }
+        }
+
+
+
+        // Check if Book on hold is available
+        // Find the User Book that is currently on hold
+        output.flush();
+        for(int i = 0; i < this.GetCatalogueSize(); i++){
+            if(this.GetBook(i).getHoldId() == userId && !this.GetBook(i).getBorrowed()){
+                output.println("The book " + this.GetBook(i).getTitle() + " is now available.");
+                output.flush();
+                //break;
+            }
+        }
     }
 }

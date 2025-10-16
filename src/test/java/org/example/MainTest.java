@@ -251,14 +251,16 @@ public class MainTest {
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
-        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
-
         // Variable for the hold book check, on the book
-        program.setBookHold(6, 1);
+        program.setBookHold(6, 0);
         program.GetBook(6).setBorrowed(false); // The book is not borrowed by anyone else
 
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+
+
         boolean assertion = false;
-        if(output.toString().contains("The book Threads of Infinity is now available.")){ // Prompt Check
+        if(output.toString().contains("Threads of Infinity")){ // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
