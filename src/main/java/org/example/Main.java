@@ -5,6 +5,8 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 // Library Function
 public class Main {
@@ -33,6 +35,7 @@ public class Main {
         int borrowId;
         boolean hold;
         int holdId;
+        LocalDate dueDate;
 
         public String getTitle(){
             return this.title;
@@ -51,7 +54,7 @@ public class Main {
         }
 
         public void setBorrowedId(int userId){
-
+            this.borrowId = userId;
         }
 
         public int getBorrowId(){
@@ -66,6 +69,9 @@ public class Main {
             this.holdId = userId;
         }
 
+        public LocalDate getDueDate(){
+            return this.dueDate;
+        }
 
     }
 
@@ -135,8 +141,10 @@ public class Main {
         b.title = title;
         b.author = author;
         b.borrowed = borrowed;
+        b.borrowId = 999;
         b.holdId = 999;
         b.hold = false;
+        b.dueDate = LocalDate.now();
         catalogue.add(b);
     }
 
@@ -239,19 +247,25 @@ public class Main {
         }
 
     }
+
+
+    // Get the Current User ID
+    public int getCurrentUserId(){
+        for(int i = 0; i < this.GetUsersSize(); i++){
+            if(this.GetUser(i).getUsername().equals(currentUser.getUsername())){
+                return i;
+            }
+        }
+
+        return 999; // If invalid
+    }
+
     public void Start(Scanner input, PrintWriter output) {
         output.println("Logged in as " + currentUser.getUsername() + ".");
         output.flush();
 
         // Get the UserID of the Current User
-        int userId = 0;
-        for(int i = 0; i < this.GetUsersSize(); i++){
-            if(this.GetUser(i).getUsername().equals(currentUser.getUsername())){
-                userId = i;
-            }
-        }
-
-
+        int userId = getCurrentUserId();
 
         // Check if Book on hold is available
         // Find the User Book that is currently on hold
@@ -286,12 +300,14 @@ public class Main {
 
 
             if(option.equals("1")){
-                output.println("----- BORROWING -----");
+
+                borrowProcess(input, output);
             }
-            if(option.equals("2")){
+            else if(option.equals("2")){
                 output.println("----- RETURNING -----");
+                returnProcess(input, output);
             }
-            if(option.equals("3")){
+            else if(option.equals("3")){
                 output.println("Logout currently in progress...");
             }
             else{
@@ -300,6 +316,57 @@ public class Main {
 
             output.flush();
         }
+
+    }
+
+    public void borrowProcess(Scanner input, PrintWriter output){
+
+        output.println("----- BORROWING -----"); // Display Prompt
+
+        // Get Current User ID
+        int userId = getCurrentUserId();
+
+        // Find how many books the user is borrowing
+        int numBorrow = 0;
+        for(int i = 0; i < this.GetCatalogueSize(); i++){
+            if(this.GetBook(i).getBorrowId() == userId){
+                numBorrow += 1;
+            }
+        }
+
+        // Display the Number of the Borrowed Books
+        if(numBorrow <= 3 && numBorrow >= 0){
+            output.println("Number of borrowed books: " + numBorrow);
+            output.flush();
+
+            output.println("Display of the collection:");
+            output.flush();
+            for(int i = 0; i < this.GetCatalogueSize(); i++){
+                if(this.GetBook(i).getBorrowId() != 999){
+                    String date = this.GetBook(i).getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    output.println(this.GetBook(i).getTitle() + " | Checked Out, Due: " + date);
+                }
+                else if(this.GetBook(i).getHoldId() != 999){
+                    output.println(this.GetBook(i).getTitle() + " | On Hold");
+                }
+                else{
+                    output.println(this.GetBook(i).getTitle() + " | Available");
+                }
+            }
+            output.flush();
+
+        }
+        else{
+            output.println("Too many borrowing books. Please return books.");
+            output.flush();
+        }
+
+
+
+
+    }
+
+    public void returnProcess(Scanner input, PrintWriter output){
 
     }
 }

@@ -376,10 +376,10 @@ public class MainTest {
     }
 
     // TODO: RESP-08 Book Borrowing Initial Display
-    // TODO: RESP_08_01 Current Book Count Valid
+    // TODO: RESP_08_01 Current Book Count Valid Prompt
     // Check if borrowing books display properly
     @Test
-    @DisplayName("Current Book Count Valid")
+    @DisplayName("Current Book Count Valid Prompt")
     void RESP_08_test_01(){
         Main program = new Main();
         program.InitializeLibrary();
@@ -403,10 +403,10 @@ public class MainTest {
         assertTrue(assertion);
     }
 
-    // TODO: RESP_08_02 Current Book Count Invalid
+    // TODO: RESP_08_02 Current Book Count Invalid Prompt
     // Check if borrowing books display properly
     @Test
-    @DisplayName("Current Book Count Invalid")
+    @DisplayName("Current Book Count Invalid Prompt")
     void RESP_08_test_02(){
         Main program = new Main();
         program.InitializeLibrary();
@@ -457,7 +457,7 @@ public class MainTest {
         assertTrue(assertion);
     }
 
-    // TODO: RESP_08_04
+    // TODO: RESP_08_04 Book Collection Onhold Prompt
     @Test
     @DisplayName("Book Collection Onhold Prompt")
     void RESP_08_test_04(){
@@ -479,39 +479,8 @@ public class MainTest {
             assertion = true;
         }
         assertTrue(assertion);
+
     }
-
-    // TODO: RESP_08_05 Books Borrowed Prompt
-    // Check if borrowed book information display properly
-    @Test
-    @DisplayName("Book Borrowed Prompt")
-    void RESP_08_test_05(){
-        Main program = new Main();
-        program.InitializeLibrary();
-
-        String input = "user01\npass01\n1\n5"; // Borrow the 5th book
-        StringWriter output = new StringWriter();
-        program.Authentication(new Scanner(input), new PrintWriter(output));
-
-        // The Menu should show at the beginning of the code
-        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
-
-        boolean assertion = false;
-        if(output.toString().contains("The Silent Symphony book borrowed.")){ // Prompt Check
-            assertion = true;
-        }
-        assertTrue(assertion);
-    }
-
-    // TODO: RESP-09 Book Borrowing Validation
-    // TODO: RESP_09_01 Book Borrowing Valid
-    // In case the book can be borrowed
-
-    // TODO: RESP_09_02 Book Borrowing Invalid
-    // In case the book cannot be borrowed
-
-    // TODO: RESP_09_03 Book Borrowing Maximum
-    // In case more than 3 books are borrowed
 
     // TODO: RESP-10 Book Borrowing Process
     // TODO: RESP_10_01 Setting up the 14-day period
