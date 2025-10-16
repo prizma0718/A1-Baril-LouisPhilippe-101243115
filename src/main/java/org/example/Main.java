@@ -38,21 +38,23 @@ public class Main {
     public class User{
         String username;
         String password;
+        Boolean borrowing;
 
         public String getUsername(){
-            return "";
+            return this.username;
         }
 
         public String getPassword(){
-            return "";
+            return this.password;
         }
 
         public Boolean getBorrowing(){
-            return true;
+            return this.borrowing;
         }
     }
 
     ArrayList<Book> catalogue = new ArrayList<Book>();
+    ArrayList<User> users = new ArrayList<User>();
 
     // Catalogue Class Creation
     // InitializeLibrary Class Creation
@@ -82,6 +84,12 @@ public class Main {
         this.AddBook("The Alchemist’s Shadow", "Fiona Delaney", false);
         this.AddBook("Letters from the Void", "Samuel Quill", false);
 
+        users = new ArrayList<User>();
+
+        this.AddUser("user01", "pass01", false);
+        this.AddUser("user02", "pass02", false);
+        this.AddUser("user03", "pass03", false);
+
     }
 
     public void AddBook(String title, String author, Boolean borrowed){
@@ -109,12 +117,19 @@ public class Main {
     }
 
     public int GetUsersSize(){
-        return 0;
+        return users.size();
     }
 
     public User GetUser(int i){
+        return users.get(i);
+    }
+
+    public void AddUser(String username, String password, Boolean borrowing){
         User u = new User();
-        return u;
+        u.username = username;
+        u.password = password;
+        u.borrowing = borrowing;
+        users.add(u);
     }
 
 }
