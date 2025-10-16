@@ -258,12 +258,42 @@ public class Main {
             }
         }
 
-        // Menu Display
-        output.println("----- MAIN MENU -----");
-        output.println("1. Borrow a book");
-        output.println("2. Return a book");
-        output.println("3. Logout");
-        output.flush();
-        String option = input.nextLine();
+        while(true){
+
+
+            String option = "";
+
+            // Menu Display
+            output.println("----- MAIN MENU -----");
+            output.println("1. Borrow a book");
+            output.println("2. Return a book");
+            output.println("3. Logout");
+            output.println("Please enter your selection:");
+            output.flush();
+
+            try {
+                option = input.nextLine();
+            } catch (java.util.NoSuchElementException e) {
+                System.out.println("Value missing. Exiting safely.");
+                break;
+            }
+
+
+            if(option.equals("1")){
+                output.println("----- BORROWING -----");
+            }
+            if(option.equals("2")){
+                output.println("----- RETURNING -----");
+            }
+            if(option.equals("3")){
+                output.println("Logout currently in progress...");
+            }
+            else{
+                output.println("Invalid Choice. Please Retry.");
+            }
+
+            output.flush();
+        }
+
     }
 }
