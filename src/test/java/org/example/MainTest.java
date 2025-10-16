@@ -217,6 +217,24 @@ public class MainTest {
     // TODO: RESP-04 Session Establishment
     // TODO: RESP_04_01 User Session Establishment
     // Check if user session is set up after authentication
+    @Test
+    @DisplayName("User Session Establishment")
+    void RESP_04_test_01(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n"; // Valid Credentials
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if(program.GetCurrentUser().getUsername().equals("user01")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP-05 Book Availability Real Time Tracking
     // TODO: RESP_05_01 Registered Book Available

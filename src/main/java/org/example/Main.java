@@ -141,6 +141,14 @@ public class Main {
         users.add(u);
     }
 
+    public User GetCurrentUser(){
+        User u = new User();
+        u.username = "";
+        u.password = "";
+        u.borrowing = false;
+        return u;
+    }
+
     public void Authentication(Scanner input, PrintWriter output){
 
         boolean valid = false;
@@ -191,6 +199,9 @@ public class Main {
             }
             output.flush();
         }
+
+    }
+    public void Start(Scanner input, PrintWriter output) {
 
 
     }
