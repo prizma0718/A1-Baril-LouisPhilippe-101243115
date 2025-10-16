@@ -140,12 +140,87 @@ public class MainTest {
     // TODO: RESP-03 User Authentication and credentials validation
     // TODO: RESP_03_01 User Authentication Prompt
     // Check if user authentication prompt is shown
+    @Test
+    @DisplayName("User Authentication Prompt")
+    void RESP_03_test_01(){
+        Main program = new Main();
+        program.InitializeLibrary();
 
-    // TODO: RESP_03_02 User Authentication Success
+        String input = "\n"; // No input Yet
+        StringWriter output = new StringWriter();
+        program.Authentication(new PrintWriter(output));
+
+        program.PromptPlayer(new Scanner(input), new PrintWriter(output));
+
+        boolean assertion = false;
+        if (output.toString().contains("Username:")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_03_02 Password Authentication Prompt
+    // Check if password authentication prompt is shown
+    @Test
+    @DisplayName("Password Authentication Prompt")
+    void RESP_03_test_02(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "\n"; // No input Yet
+        StringWriter output = new StringWriter();
+        program.Authentication(new PrintWriter(output));
+
+        program.PromptPlayer(new Scanner(input), new PrintWriter(output));
+
+        boolean assertion = false;
+        if (output.toString().contains("Password:")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_03_03 User Authentication Success
     // Check if user authentication succeeds
+    @Test
+    @DisplayName("User Authentication Success")
+    void RESP_03_test_03(){
+        Main program = new Main();
+        program.InitializeLibrary();
 
-    // TODO: RESP_03_03 User Authentication Failure
+        String input = "user01\npass01"; // No input Yet
+        StringWriter output = new StringWriter();
+        program.Authentication(new PrintWriter(output));
+
+        program.PromptPlayer(new Scanner(input), new PrintWriter(output));
+
+        boolean assertion = false;
+        if (output.toString().contains("Welcome, user01!")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_03_04 User Authentication Failure
     // Check if user authentication fails and retry
+    @Test
+    @DisplayName("User Authentication Failure")
+    void RESP_03_test_04(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user99\npass99"; // Invalid credentials
+        StringWriter output = new StringWriter();
+        program.Authentication(new PrintWriter(output));
+
+        program.PromptPlayer(new Scanner(input), new PrintWriter(output));
+
+        boolean assertion = false;
+        if (output.toString().contains("Login invalid, please retry.")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP-04 Session Establishment
     // TODO: RESP_04_01 User Session Establishment
