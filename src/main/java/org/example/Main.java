@@ -132,11 +132,7 @@ public class Main {
         users.add(u);
     }
 
-    public void Authentication(PrintWriter output){
-
-    }
-
-    public void PromptPlayer(Scanner input, PrintWriter output){
+    public void Authentication(Scanner input, PrintWriter output){
 
     }
 }

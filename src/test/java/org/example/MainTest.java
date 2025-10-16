@@ -148,9 +148,7 @@ public class MainTest {
 
         String input = "\n"; // No input Yet
         StringWriter output = new StringWriter();
-        program.Authentication(new PrintWriter(output));
-
-        program.PromptPlayer(new Scanner(input), new PrintWriter(output));
+        program.Authentication(new Scanner(input), new PrintWriter(output));
 
         boolean assertion = false;
         if (output.toString().contains("Username:")){ // Prompt Check
@@ -169,9 +167,7 @@ public class MainTest {
 
         String input = "\n"; // No input Yet
         StringWriter output = new StringWriter();
-        program.Authentication(new PrintWriter(output));
-
-        program.PromptPlayer(new Scanner(input), new PrintWriter(output));
+        program.Authentication(new Scanner(input), new PrintWriter(output));
 
         boolean assertion = false;
         if (output.toString().contains("Password:")){ // Prompt Check
@@ -190,9 +186,7 @@ public class MainTest {
 
         String input = "user01\npass01"; // No input Yet
         StringWriter output = new StringWriter();
-        program.Authentication(new PrintWriter(output));
-
-        program.PromptPlayer(new Scanner(input), new PrintWriter(output));
+        program.Authentication(new Scanner(input), new PrintWriter(output));
 
         boolean assertion = false;
         if (output.toString().contains("Welcome, user01!")){ // Prompt Check
@@ -211,9 +205,7 @@ public class MainTest {
 
         String input = "user99\npass99"; // Invalid credentials
         StringWriter output = new StringWriter();
-        program.Authentication(new PrintWriter(output));
-
-        program.PromptPlayer(new Scanner(input), new PrintWriter(output));
+        program.Authentication(new Scanner(input), new PrintWriter(output));
 
         boolean assertion = false;
         if (output.toString().contains("Login invalid, please retry.")){ // Prompt Check
