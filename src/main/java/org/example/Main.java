@@ -65,6 +65,8 @@ public class Main {
     ArrayList<Book> catalogue = new ArrayList<Book>();
     ArrayList<User> users = new ArrayList<User>();
 
+    User currentUser;
+
     // Catalogue Class Creation
     // InitializeLibrary Class Creation
 
@@ -142,11 +144,7 @@ public class Main {
     }
 
     public User GetCurrentUser(){
-        User u = new User();
-        u.username = "";
-        u.password = "";
-        u.borrowing = false;
-        return u;
+        return currentUser;
     }
 
     public void Authentication(Scanner input, PrintWriter output){
@@ -200,9 +198,15 @@ public class Main {
             output.flush();
         }
 
+        // Set the User to the Appropriate One
+        for(int i = 0; i < this.GetUsersSize(); i++){
+            if(this.users.get(i).getUsername().equals(username) && this.users.get(i).getPassword().equals(password)){
+                this.currentUser = this.users.get(i);
+            }
+        }
+
     }
     public void Start(Scanner input, PrintWriter output) {
-
-
+        output.println("Logged in as " + currentUser.getUsername() + ".");
     }
 }

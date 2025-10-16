@@ -214,7 +214,7 @@ public class MainTest {
         assertTrue(assertion);
     }
 
-    // TODO: RESP-04 Session Establishment
+    // TODO: RESP-04 User Session Establishment
     // TODO: RESP_04_01 User Session Establishment
     // Check if user session is set up after authentication
     @Test
