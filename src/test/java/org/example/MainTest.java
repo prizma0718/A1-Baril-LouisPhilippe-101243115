@@ -82,12 +82,60 @@ public class MainTest {
     // TODO: RESP-02 System user accounts initialization
     // TODO: RESP_02_01 User Collection Count
     // Check if there are 3 users initialized
+    @Test
+    @DisplayName("User Collection Count")
+    void RESP_02_test_01(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        // The Catalogue should not be empty, with 3 users
+        int usersSize = program.GetUsersSize(); // Get the Deck Size
+        assertEquals(3, usersSize); // Check for the test
+    }
 
     // TODO: RESP_02_02 User Collection Usernames and Passwords
     // Check if their username and passwords are intended
+    @Test
+    @DisplayName("User Collection Usernames and Passwords")
+    void RESP_02_test_02(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        // Verify the Entry
+        boolean noMismatch = false;
+
+        if (program.GetUser(0).getUsername().equals("user01") && program.GetUser(0).getPassword().equals("pass01")){
+            if (program.GetUser(1).getUsername().equals("user02") && program.GetUser(1).getPassword().equals("pass02")){
+                if (program.GetUser(2).getUsername().equals("user03") && program.GetUser(2).getPassword().equals("pass03")){
+                    noMismatch = true;
+                }
+            }
+        }
+
+        assertTrue(noMismatch && (program.GetUsersSize() != 0));
+    }
 
     // TODO: RESP_02_03 User Collection no borrowing
     // Check if all user are initialized with no borrow
+    @Test
+    @DisplayName(" User Collection no borrowing")
+    void RESP_02_test_03(){
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        int usersSize = program.GetUsersSize();
+
+        // test 2 - should be no duplicate values in deck, Computing
+        boolean noMismatch = true;
+        for (int i = 0; i < usersSize; i++){
+            if (program.GetUser(i).getBorrowing()){
+                noMismatch = false;
+            }
+        }
+
+        // The Catalogue should return true if all books are marked as available
+        assertTrue(noMismatch && (program.GetUsersSize() != 0));
+    }
 
     // TODO: RESP-03 User Authentication and credentials validation
     // TODO: RESP_03_01 User Authentication Prompt

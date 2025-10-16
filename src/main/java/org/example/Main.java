@@ -35,6 +35,23 @@ public class Main {
         }
     }
 
+    public class User{
+        String username;
+        String password;
+
+        public String getUsername(){
+            return "";
+        }
+
+        public String getPassword(){
+            return "";
+        }
+
+        public Boolean getBorrowing(){
+            return true;
+        }
+    }
+
     ArrayList<Book> catalogue = new ArrayList<Book>();
 
     // Catalogue Class Creation
@@ -89,6 +106,15 @@ public class Main {
         b.author = author;
         b.borrowed = borrowed;
         catalogue.set(index, b);
+    }
+
+    public int GetUsersSize(){
+        return 0;
+    }
+
+    public User GetUser(int i){
+        User u = new User();
+        return u;
     }
 
 }
