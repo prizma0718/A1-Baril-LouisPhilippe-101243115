@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +18,7 @@ public class MainTest {
     // Check if the collection contains 20 books
     @Test
     @DisplayName("Book Collection Count Check")
-    void RESP_01_test_01(){
+    void RESP_01_test_01() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -30,22 +31,22 @@ public class MainTest {
     // Check if 1th, 10th and 20th book if they are correct
     @Test
     @DisplayName("Book Collection Information Check")
-    void RESP_01_test_02(){
+    void RESP_01_test_02() {
         Main program = new Main();
         program.InitializeLibrary();
 
         int catalogueSize = program.GetCatalogueSize(); // Get the Value
 
-        program.OverwriteBook(0, "Whispers in the Fog","Eleanor Vance", false);
+        program.OverwriteBook(0, "Whispers in the Fog", "Eleanor Vance", false);
         program.OverwriteBook(9, "When Stars Align", "Nathaniel Grey", false);
         program.OverwriteBook(19, "Letters from the Void", "Samuel Quill", false);
 
         // Verify the Entry
         boolean noMismatch = false;
 
-        if (program.GetBook(0).getTitle().equals("Whispers in the Fog") && program.GetBook(0).getAuthor().equals("Eleanor Vance")){
-            if (program.GetBook(9).getTitle().equals("When Stars Align") && program.GetBook(9).getAuthor().equals("Nathaniel Grey")){
-                if (program.GetBook(19).getTitle().equals("Letters from the Void") && program.GetBook(19).getAuthor().equals("Samuel Quill")){
+        if (program.GetBook(0).getTitle().equals("Whispers in the Fog") && program.GetBook(0).getAuthor().equals("Eleanor Vance")) {
+            if (program.GetBook(9).getTitle().equals("When Stars Align") && program.GetBook(9).getAuthor().equals("Nathaniel Grey")) {
+                if (program.GetBook(19).getTitle().equals("Letters from the Void") && program.GetBook(19).getAuthor().equals("Samuel Quill")) {
                     noMismatch = true;
                 }
             }
@@ -59,7 +60,7 @@ public class MainTest {
     // Check if all books are listed as available at initialization
     @Test
     @DisplayName("Book Collection Availability Check")
-    void RESP_01_test_03(){
+    void RESP_01_test_03() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -67,9 +68,9 @@ public class MainTest {
 
         // test 2 - should be no duplicate values in deck, Computing
         boolean noMismatch = true;
-        for (int i = 0; i < catalogueSize; i++){
-            for (int j = 0; j < program.GetCatalogueSize(); j++){
-                if (program.GetBook(i).getBorrowed()){
+        for (int i = 0; i < catalogueSize; i++) {
+            for (int j = 0; j < program.GetCatalogueSize(); j++) {
+                if (program.GetBook(i).getBorrowed()) {
                     noMismatch = false;
                 }
             }
@@ -84,7 +85,7 @@ public class MainTest {
     // Check if there are 3 users initialized
     @Test
     @DisplayName("User Collection Count")
-    void RESP_02_test_01(){
+    void RESP_02_test_01() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -97,16 +98,16 @@ public class MainTest {
     // Check if their username and passwords are intended
     @Test
     @DisplayName("User Collection Usernames and Passwords")
-    void RESP_02_test_02(){
+    void RESP_02_test_02() {
         Main program = new Main();
         program.InitializeLibrary();
 
         // Verify the Entry
         boolean noMismatch = false;
 
-        if (program.GetUser(0).getUsername().equals("user01") && program.GetUser(0).getPassword().equals("pass01")){
-            if (program.GetUser(1).getUsername().equals("user02") && program.GetUser(1).getPassword().equals("pass02")){
-                if (program.GetUser(2).getUsername().equals("user03") && program.GetUser(2).getPassword().equals("pass03")){
+        if (program.GetUser(0).getUsername().equals("user01") && program.GetUser(0).getPassword().equals("pass01")) {
+            if (program.GetUser(1).getUsername().equals("user02") && program.GetUser(1).getPassword().equals("pass02")) {
+                if (program.GetUser(2).getUsername().equals("user03") && program.GetUser(2).getPassword().equals("pass03")) {
                     noMismatch = true;
                 }
             }
@@ -119,7 +120,7 @@ public class MainTest {
     // Check if all user are initialized with no borrow
     @Test
     @DisplayName(" User Collection no borrowing")
-    void RESP_02_test_03(){
+    void RESP_02_test_03() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -127,8 +128,8 @@ public class MainTest {
 
         // test 2 - should be no duplicate values in deck, Computing
         boolean noMismatch = true;
-        for (int i = 0; i < usersSize; i++){
-            if (program.GetUser(i).getBorrowing()){
+        for (int i = 0; i < usersSize; i++) {
+            if (program.GetUser(i).getBorrowing()) {
                 noMismatch = false;
             }
         }
@@ -142,7 +143,7 @@ public class MainTest {
     // Check if user authentication prompt is shown
     @Test
     @DisplayName("User Authentication Prompt")
-    void RESP_03_test_01(){
+    void RESP_03_test_01() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -151,7 +152,7 @@ public class MainTest {
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
         boolean assertion = false;
-        if (output.toString().contains("Username:")){ // Prompt Check
+        if (output.toString().contains("Username:")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -161,7 +162,7 @@ public class MainTest {
     // Check if password authentication prompt is shown
     @Test
     @DisplayName("Password Authentication Prompt")
-    void RESP_03_test_02(){
+    void RESP_03_test_02() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -170,7 +171,7 @@ public class MainTest {
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
         boolean assertion = false;
-        if (output.toString().contains("Password:")){ // Prompt Check
+        if (output.toString().contains("Password:")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -180,7 +181,7 @@ public class MainTest {
     // Check if user authentication succeeds
     @Test
     @DisplayName("User Authentication Success")
-    void RESP_03_test_03(){
+    void RESP_03_test_03() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -189,7 +190,7 @@ public class MainTest {
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
         boolean assertion = false;
-        if (output.toString().contains("Welcome, user01!")){ // Prompt Check
+        if (output.toString().contains("Welcome, user01!")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -199,7 +200,7 @@ public class MainTest {
     // Check if user authentication fails and retry
     @Test
     @DisplayName("User Authentication Failure")
-    void RESP_03_test_04(){
+    void RESP_03_test_04() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -208,7 +209,7 @@ public class MainTest {
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
         boolean assertion = false;
-        if (output.toString().contains("Login invalid, please retry.")){ // Prompt Check
+        if (output.toString().contains("Login invalid, please retry.")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -219,7 +220,7 @@ public class MainTest {
     // Check if user session is set up after authentication
     @Test
     @DisplayName("User Session Establishment")
-    void RESP_04_test_01(){
+    void RESP_04_test_01() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -230,7 +231,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if(program.GetCurrentUser().getUsername().equals("user01")){ // Prompt Check
+        if (program.GetCurrentUser().getUsername().equals("user01")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -243,7 +244,7 @@ public class MainTest {
     // Check if the registered book is now available at beginning
     @Test
     @DisplayName("Registered Book Available")
-    void RESP_05_test_01(){
+    void RESP_05_test_01() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -258,9 +259,8 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
 
-
         boolean assertion = false;
-        if(output.toString().contains("Threads of Infinity")){ // Prompt Check
+        if (output.toString().contains("Threads of Infinity")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -271,7 +271,7 @@ public class MainTest {
     // Check if main menu displays correctly
     @Test
     @DisplayName("Main Menu Prompt")
-    void RESP_06_test_01(){
+    void RESP_06_test_01() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -283,7 +283,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if(output.toString().contains("----- MAIN MENU -----")){ // Prompt Check
+        if (output.toString().contains("----- MAIN MENU -----")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -294,7 +294,7 @@ public class MainTest {
     // Main menu Options Navigation Process
     @Test
     @DisplayName("Borrowing Book Navigation")
-    void RESP_07_test_01(){
+    void RESP_07_test_01() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -306,7 +306,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if(output.toString().contains("----- BORROWING -----")){ // Prompt Check
+        if (output.toString().contains("----- BORROWING -----")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -315,7 +315,7 @@ public class MainTest {
     // TODO: RESP_07_02 Returning Prompt
     @Test
     @DisplayName("Returning Book Navigation")
-    void RESP_07_test_02(){
+    void RESP_07_test_02() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -327,7 +327,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if(output.toString().contains("----- RETURNING -----")){ // Prompt Check
+        if (output.toString().contains("----- RETURNING -----")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -336,7 +336,7 @@ public class MainTest {
     // TODO: RESP_07_03 Logout Prompt
     @Test
     @DisplayName("Logout Navigation")
-    void RESP_07_test_03(){
+    void RESP_07_test_03() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -348,7 +348,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if(output.toString().contains("Logout currently in progress...")){ // Prompt Check
+        if (output.toString().contains("Logout currently in progress...")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -357,7 +357,7 @@ public class MainTest {
     // TODO: RESP_07_04 Error Prompt
     @Test
     @DisplayName("Error Navigation")
-    void RESP_07_test_04(){
+    void RESP_07_test_04() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -369,7 +369,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if(output.toString().contains("Invalid Choice. Please Retry.")){ // Prompt Check
+        if (output.toString().contains("Invalid Choice. Please Retry.")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -380,7 +380,7 @@ public class MainTest {
     // Check if borrowing books display properly
     @Test
     @DisplayName("Current Book Count Valid Prompt")
-    void RESP_08_test_01(){
+    void RESP_08_test_01() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -397,7 +397,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if(output.toString().contains("Number of borrowed books: 3")){ // Prompt Check
+        if (output.toString().contains("Number of borrowed books: 3")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -407,7 +407,7 @@ public class MainTest {
     // Check if borrowing books display properly
     @Test
     @DisplayName("Current Book Count Invalid Prompt")
-    void RESP_08_test_02(){
+    void RESP_08_test_02() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -425,7 +425,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if(output.toString().contains("Too many borrowing books.")){ // Prompt Check
+        if (output.toString().contains("Too many borrowing books.")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -435,7 +435,7 @@ public class MainTest {
     // Check if borrowing collection display properly
     @Test
     @DisplayName("Book Collection Prompt")
-    void RESP_08_test_03(){
+    void RESP_08_test_03() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -451,7 +451,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if(output.toString().contains("Checked Out")){ // Prompt Check
+        if (output.toString().contains("Checked Out")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -460,7 +460,7 @@ public class MainTest {
     // TODO: RESP_08_04 Book Collection Onhold Prompt
     @Test
     @DisplayName("Book Collection Onhold Prompt")
-    void RESP_08_test_04(){
+    void RESP_08_test_04() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -475,7 +475,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if(output.toString().contains("On Hold")){ // Prompt Check
+        if (output.toString().contains("On Hold")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -487,7 +487,7 @@ public class MainTest {
     // In case the book can be borrowed
     @Test
     @DisplayName("Book Borrowing Valid")
-    void RESP_09_test_01(){
+    void RESP_09_test_01() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -499,7 +499,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if(output.toString().contains("Threads of Infinity Book successfully borrowed.")){ // Prompt Check
+        if (output.toString().contains("Threads of Infinity Book successfully borrowed.")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -509,8 +509,8 @@ public class MainTest {
     // TODO: RESP_09_02 Book Borrowing Invalid
     // In case the book cannot be borrowed
     @Test
-    @DisplayName("Book Borrowing Valid")
-    void RESP_09_test_02(){
+    @DisplayName("Book Borrowing Invalid")
+    void RESP_09_test_02() {
         Main program = new Main();
         program.InitializeLibrary();
 
@@ -525,19 +525,43 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if(output.toString().contains("Book borrowing unsuccessful. Someone is borrowing this book.")){ // Prompt Check
+        if (output.toString().contains("Book borrowing unsuccessful. Someone is borrowing this book.")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
-
     }
 
     // TODO: RESP-10 Book Borrowing Process
     // TODO: RESP_10_01 Setting up the 14-day period
     // So that book is borrowed for next 14 days
+    @Test
+    @DisplayName("Setting up the 14-day period")
+    void RESP_10_test_01() {
+        Main program = new Main();
+        program.InitializeLibrary();
 
-    // TODO: RESP_10_02 Setting up the borrowed status
-    // So that book is now marked as borrowed
+        String input = "user01\npass01\n1\n7\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        LocalDate futureDate = LocalDate.now().plusDays(14);
+        int year = futureDate.getYear();
+        int month = futureDate.getMonthValue();
+        int day = futureDate.getDayOfMonth();
+
+        if (program.GetBook(6).getDueDate().getYear() == year) {
+            if (program.GetBook(6).getDueDate().getMonthValue() == month) {
+                if (program.GetBook(6).getDueDate().getDayOfMonth() == day) {
+                    assertion = true;
+                }
+            }
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP-11 Book Holding Display
     // TODO: RESP_11_01 In case there are holding book(s)
