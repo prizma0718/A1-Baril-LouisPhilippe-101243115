@@ -42,6 +42,10 @@ public class Main {
         public Boolean getBorrowed(){
             return this.borrowed;
         }
+
+        public void setBorrowed(boolean value){
+
+        }
     }
 
     public class User{
@@ -60,6 +64,8 @@ public class Main {
         public boolean getBorrowing(){
             return this.borrowing;
         }
+
+
     }
 
     ArrayList<Book> catalogue = new ArrayList<Book>();
@@ -145,6 +151,10 @@ public class Main {
 
     public User GetCurrentUser(){
         return currentUser;
+    }
+
+    public void setBookHold(int bookId, int userId){
+
     }
 
     public void Authentication(Scanner input, PrintWriter output){

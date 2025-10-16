@@ -236,12 +236,33 @@ public class MainTest {
         assertTrue(assertion);
     }
 
+    // Make More Checks on each Responsibility
+
     // TODO: RESP-05 Book Availability Real Time Tracking
     // TODO: RESP_05_01 Registered Book Available
     // Check if the registered book is now available at beginning
+    @Test
+    @DisplayName("Registered Book Available")
+    void RESP_05_test_01(){
+        Main program = new Main();
+        program.InitializeLibrary();
 
-    // TODO: RESP_05_02 Registered Book Not Available
-    // Check if the registered book is not available yet
+        String input = "user01\npass01\n"; // Valid Credentials
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        // Variable for the hold book check, on the book
+        program.setBookHold(6, 1);
+        program.GetBook(6).setBorrowed(false); // The book is not borrowed by anyone else
+
+        boolean assertion = false;
+        if(output.toString().contains("The book Threads of Infinity is now available.")){ // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP-06 Main Menu Displaying
     // TODO: RESP_06_01 Main Menu Prompt
