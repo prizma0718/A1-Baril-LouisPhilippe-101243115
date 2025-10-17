@@ -73,6 +73,10 @@ public class Main {
             return this.dueDate;
         }
 
+        public void setDueDate(LocalDate date){
+            this.dueDate = date;
+        }
+
     }
 
     public class User{
@@ -381,6 +385,11 @@ public class Main {
                     else{
                         this.GetBook(inputValue-1).setBorrowedId(userId);
                         output.println(this.GetBook(inputValue-1).getTitle() + " Book successfully borrowed.");
+
+                        // Set the Due date for 2 weeks later
+                        LocalDate futureDate = LocalDate.now().plusDays(14);
+                        this.GetBook(inputValue-1).setDueDate(futureDate);
+
                         output.flush();
                         break;
                     }
