@@ -676,7 +676,7 @@ public class MainTest {
     // TODO: RESP_13_01 Setting up the hold status
     // So that book is now marked as hold
     @Test
-    @DisplayName("Book Collection Prompt")
+    @DisplayName("Setting up the hold status")
     void RESP_13_test_01() {
         Main program = new Main();
         program.InitializeLibrary();
@@ -691,7 +691,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if (output.toString().contains("On Hold")) { // Prompt Check
+        if (output.toString().contains("7 | Threads of Infinity | On Hold")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
