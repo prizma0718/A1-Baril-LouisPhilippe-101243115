@@ -252,7 +252,6 @@ public class Main {
 
     }
 
-
     // Get the Current User ID
     public int getCurrentUserId(){
         for(int i = 0; i < this.GetUsersSize(); i++){
@@ -357,7 +356,6 @@ public class Main {
                 }
             }
             output.flush();
-
 
             while (true) {
                 int inputValue = 0;
