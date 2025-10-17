@@ -751,9 +751,57 @@ public class MainTest {
     // TODO: RESP-15 Book Returning Validation
     // TODO: RESP_15_01 Book Returning Valid
     // In case the book can be returned
+    @Test
+    @DisplayName("Book Returning Valid")
+    void RESP_15_test_01() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n2\n7\n"; // Access the status of the page with the book holding
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // The user have already 2 borrowed books.
+        program.GetBook(6).setBorrowedId(0);
+        program.GetBook(7).setBorrowedId(0);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Book returned.")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+
+    }
 
     // TODO: RESP_15_02 Book Returning Invalid
     // In case the book cannot be returned
+    @Test
+    @DisplayName("Book Returning Invalid")
+    void RESP_15_test_02() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n2\n12"; // Invalid Value for the book
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // The user have already 2 borrowed books.
+        program.GetBook(6).setBorrowedId(0);
+        program.GetBook(7).setBorrowedId(0);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Book not returned.")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+
+    }
 
     // TODO: RESP-16 Book Returning Process
     // TODO: RESP_16_01 Setting up the return period
