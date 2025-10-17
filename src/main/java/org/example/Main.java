@@ -15,16 +15,18 @@ public class Main {
         // to see how IntelliJ IDEA suggests fixing it.
         System.out.println("COMP 4004 - Library Management System");
 
-        String input = "user01\npass01\n";
+        //String input = "user01\npass01\n";
 
-        //Scanner input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
         PrintWriter output = new PrintWriter(System.out);
 
         Main program = new Main();
         program.InitializeLibrary();
 
-        //program.Authentication(new Scanner(input), output);
-        //program.Authentication(input, output);
+        program.Authentication(input, output);
+
+        // The Menu should show at the beginning of the code
+        program.Start(input, output); // Start with the Session above
 
     }
 
