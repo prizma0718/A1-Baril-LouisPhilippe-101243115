@@ -351,15 +351,22 @@ public class Main {
             output.println("Display of the collection:");
             output.flush();
             for(int i = 0; i < this.GetCatalogueSize(); i++){
-                if(this.GetBook(i).getBorrowId() != 999){
+                if(this.GetBook(i).getBorrowId() == userId){
                     String date = this.GetBook(i).getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | Checked Out, Due: " + date);
+                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | *Checked Out, Due: " + date);
+                }
+                else if(this.GetBook(i).getBorrowId() != 999){
+                    String date = this.GetBook(i).getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | Checked Out, Due: " + date);
+                }
+                else if(this.GetBook(i).getHoldId() == userId){
+                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | *On Hold");
                 }
                 else if(this.GetBook(i).getHoldId() != 999){
-                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | On Hold");
+                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | On Hold");
                 }
                 else{
-                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | Available");
+                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | Available");
                 }
             }
             output.flush();
@@ -427,7 +434,7 @@ public class Main {
 
                         break;
                     }
-                    else if(numBorrow == 3){
+                    else if(numBorrow >= 3){
                         output.println("Book borrowing unsuccessful. Maximum number of borrowing books.");
                         output.flush();
 
@@ -461,21 +468,49 @@ public class Main {
                         break;
                     }
                     else{
-                        this.GetBook(inputValue-1).setBorrowedId(userId);
-                        output.println(this.GetBook(inputValue-1).getTitle() + " Book successfully borrowed.");
 
-                        // Set the Due date for 2 weeks later
-                        LocalDate futureDate = LocalDate.now().plusDays(14);
-                        this.GetBook(inputValue-1).setDueDate(futureDate);
-
+                        int confirm = 0;
+                        output.println("Please confirm the operation.");
+                        output.println("1. Yes");
+                        output.println("2. No");
                         output.flush();
-                        break;
+                        try {
+                            confirm = Integer.parseInt(input.nextLine()); // Read input as string and parse
+                        } catch (NumberFormatException e) {
+                            output.println("Invalid input! Please enter a valid integer.");
+                            output.flush();
+                        } catch (java.util.NoSuchElementException e) {
+                            output.println("Value missing. Exiting safely.");
+                            output.flush();
+                            break;
+                        }
+
+                        if(confirm == 1){
+                            this.GetBook(inputValue-1).setBorrowedId(userId);
+                            output.println(this.GetBook(inputValue-1).getTitle() + " Book successfully borrowed.");
+
+                            // Set the Due date for 2 weeks later
+                            LocalDate futureDate = LocalDate.now().plusDays(14);
+                            this.GetBook(inputValue-1).setDueDate(futureDate);
+
+                            output.flush();
+                            break;
+                        }
+                        else{
+                            output.println("Returning to book listing.");
+                            output.flush();
+                        }
+
                     }
                 }
                 else if(inputValue == 0){
                     output.println("Returning to main menu.");
                     output.flush();
                     break;
+                }
+                else{
+                    output.println("Invalid Choice. Please enter a number in the range of 0-20.");
+                    output.flush();
                 }
             }
 
@@ -504,7 +539,7 @@ public class Main {
         for(int i = 0; i < this.GetCatalogueSize(); i++){
             if(this.GetBook(i).getBorrowId() == userId){
                 numBorrow += 1;
-                output.println(i+1 + " | " + this.GetBook(i).getTitle());
+                output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | Checked Out, Due: " + this.GetBook(i).getDueDate());
             }
         }
 

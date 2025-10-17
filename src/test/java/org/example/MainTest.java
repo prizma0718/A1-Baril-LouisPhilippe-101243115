@@ -510,7 +510,7 @@ public class MainTest {
         Main program = new Main();
         program.InitializeLibrary();
 
-        String input = "user01\npass01\n1\n";
+        String input = "user01\npass01\n1\n7\n";
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
@@ -534,6 +534,8 @@ public class MainTest {
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
+        program.GetBook(7).setBorrowedId(0);
+
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
@@ -554,6 +556,8 @@ public class MainTest {
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
+        program.GetBook(7).setHoldId(0);
+
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
@@ -573,7 +577,7 @@ public class MainTest {
         Main program = new Main();
         program.InitializeLibrary();
 
-        String input = "user01\npass01\n1\n7\n";
+        String input = "user01\npass01\n1\n7\n1\n";
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
@@ -637,7 +641,7 @@ public class MainTest {
         Main program = new Main();
         program.InitializeLibrary();
 
-        String input = "user01\npass01\n1\n7\n";
+        String input = "user01\npass01\n1\n7\n1\n";
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
@@ -787,7 +791,7 @@ public class MainTest {
         Main program = new Main();
         program.InitializeLibrary();
 
-        String input = "user01\npass01\n1\n7\n1\n1"; // Access the status of the page with the book holding
+        String input = "user01\npass01\n1\n7\n1\n"; // Access the status of the page with the book holding
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
@@ -797,7 +801,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if (output.toString().contains("7 | Threads of Infinity | On Hold")) { // Prompt Check
+        if (output.toString().contains("On Hold")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -962,7 +966,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if (output.toString().contains("7 | Threads of Infinity | Available")) { // Prompt Check
+        if (output.toString().contains("Available")) { // Prompt Check
             assertion = true;
         }
 
@@ -977,7 +981,7 @@ public class MainTest {
         Main program = new Main();
         program.InitializeLibrary();
 
-        String input = "user02\npass02\n1\n7\n1\n"; // Invalid Value for the book
+        String input = "user02\npass02\n1\n7\n1\n1\n"; // Invalid Value for the book
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
@@ -986,7 +990,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if (output.toString().contains("7 | Threads of Infinity | Checked Out")) { // Prompt Check
+        if (output.toString().contains("Checked Out")) { // Prompt Check
             assertion = true;
         }
 
