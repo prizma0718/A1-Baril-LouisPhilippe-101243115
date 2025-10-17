@@ -131,7 +131,7 @@ public class Main {
         this.AddBook("The Painter’s Secret", "Gabriel Thorne", false);
         this.AddBook("Winds of Yesterday", "Emilia Hart", false);
         this.AddBook("Beneath Neon Skies", " Jasper Linwood", false);
-        this.AddBook("The Alchemist’s Shadow", "Fiona Delaney", false);
+        this.AddBook("The Great Gatsby", "Scott Fitzgerald", false);
         this.AddBook("Letters from the Void", "Samuel Quill", false);
 
         users = new ArrayList<User>();
@@ -468,6 +468,11 @@ public class Main {
                         output.flush();
                         break;
                     }
+                }
+                else if(inputValue == 0){
+                    output.println("Returning to main menu.");
+                    output.flush();
+                    break;
                 }
             }
 
