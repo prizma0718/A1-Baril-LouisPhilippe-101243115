@@ -564,18 +564,41 @@ public class MainTest {
     }
 
     // TODO: RESP-11 Book Holding Display
-    // TODO: RESP_11_01 In case there are holding book(s)
-    // Display holding books
+    // TODO: RESP_11_01 Book Holding System on One Book
+    // Display holding books when the book is unavailable
+    @Test
+    @DisplayName("Book Holding System on One Book")
+    void RESP_11_test_01() {
+        Main program = new Main();
+        program.InitializeLibrary();
 
-    // TODO: RESP_11_02 In case there are no borrowed book(s)
-    // Display no holding books
+        String input = "user01\npass01\n1\n7\n1\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+
+        // Book borrowed by someone else
+        program.GetBook(6).setHoldId(1);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Book onhold successful.")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP-12 Book Holding Validation
     // TODO: RESP_12_01 Book Holding Valid
     // In case the book can be hold
+    // Only on a held or borrowed book
 
     // TODO: RESP_12_02 Book Holding Invalid
-    // In case the book cannot be hold
+    // In case the book cannot be hold, Check that If the User is already holding a book
+    // Also the hold cannot be placed on an available book or borrowed by oneself book
+    // No holding onto an already holding book
 
     // TODO: RESP-13 Book Holding Process
     // TODO: RESP_13_01 Setting up the holding period
