@@ -591,14 +591,86 @@ public class MainTest {
     }
 
     // TODO: RESP-12 Book Holding Validation
-    // TODO: RESP_12_01 Book Holding Valid
+    // TODO: RESP_12_01 Book Holding System on Available Book
     // In case the book can be hold
     // Only on a held or borrowed book
+    @Test
+    @DisplayName("Book Holding System on Available Book")
+    void RESP_12_test_01() {
+        Main program = new Main();
+        program.InitializeLibrary();
 
-    // TODO: RESP_12_02 Book Holding Invalid
-    // In case the book cannot be hold, Check that If the User is already holding a book
-    // Also the hold cannot be placed on an available book or borrowed by oneself book
+        String input = "user01\npass01\n1\n12\n1\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // The user has 3 borrowed books
+        program.GetBook(6).setBorrowedId(1);
+        program.GetBook(7).setBorrowedId(1);
+        program.GetBook(8).setBorrowedId(1);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Book onhold successful.")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_12_02 Book Holding Invalid Borrowed
+    // Also the hold cannot be placed on oneself book
+
+    @Test
+    @DisplayName("Book Holding Invalid Borrowed")
+    void RESP_12_test_02() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n7\n1\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+
+        // Book borrowed ourself
+        program.GetBook(6).setBorrowedId(1);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Book already borrowed.")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_12_03 Book Holding Invalid Hold
     // No holding onto an already holding book
+    @Test
+    @DisplayName("Book Holding Invalid Hold")
+    void RESP_12_test_03() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n7\n1\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+
+        // Book already held
+        program.GetBook(6).setHoldId(1);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Book already held.")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP-13 Book Holding Process
     // TODO: RESP_13_01 Setting up the holding period
