@@ -618,18 +618,125 @@ public class MainTest {
     }
 
     // TODO: RESP_09_03 Book Borrowing Invalid if Onhold from others
+    @Test
+    @DisplayName("Book Borrowing Invalid if Onhold from others")
+    void RESP_09_test_03() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n7\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // Book borrowed by someone else
+        program.GetBook(6).setHoldId(1);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Book borrowing unsuccessful. Someone is onholding this book.")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP_09_04 Book Borrowing Invalid if Onhold from myself
     // You already have a hold on this book
+    @Test
+    @DisplayName("Book Borrowing Invalid if Onhold from myself")
+    void RESP_09_test_04() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n7\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // Book borrowed by someone else
+        program.GetBook(6).setHoldId(0);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Book borrowing unsuccessful. You already have a hold on this book")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP_09_05 Book Borrowing Invalid if Checked from myself
-    // You already have this book checked out
+    @Test
+    @DisplayName("Book Borrowing Invalid if Checked from myself")
+    void RESP_09_test_05() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n7\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // Book borrowed by someone else
+        program.GetBook(6).setBorrowedId(0);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Book borrowing unsuccessful. You already have this book checked out")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP_09_06 Book Borrowing Invalid if 3 books or more
-    // maximum borrowing limit reached
+    @Test
+    @DisplayName("Book Borrowing Invalid if 3 books or more")
+    void RESP_09_test_06() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n7\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // Book borrowed by someone else
+        program.GetBook(6).setBorrowedId(0);
+        program.GetBook(7).setBorrowedId(0);
+        program.GetBook(8).setBorrowedId(0);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Maximum borrowing limit reached.")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP_09_07 Book Borrowing Invalid if number outside range
     // Return to the main menu with appropriate message
+    @Test
+    @DisplayName("Book Borrowing Invalid if number outside range")
+    void RESP_09_test_07() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n25\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Please enter a number in the range of 0-20.")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
 
     // TODO: RESP-10 Book Borrowing Process
