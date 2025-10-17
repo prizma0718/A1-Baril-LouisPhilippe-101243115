@@ -256,13 +256,16 @@ public class Main {
 
     // Get the Current User ID
     public int getCurrentUserId(){
-        for(int i = 0; i < this.GetUsersSize(); i++){
-            if(this.GetUser(i).getUsername().equals(currentUser.getUsername())){
-                return i;
+
+        if(currentUser != null){
+            for(int i = 0; i < this.GetUsersSize(); i++){
+                if(this.GetUser(i).getUsername().equals(currentUser.getUsername())){
+                    return i;
+                }
             }
         }
 
-        return 999; // If invalid
+        return 999; // If invalid;
     }
 
     public void Start(Scanner input, PrintWriter output) {
