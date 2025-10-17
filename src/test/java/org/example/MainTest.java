@@ -483,13 +483,85 @@ public class MainTest {
     }
 
     // TODO: RESP-08_05 Book Borrowing Listing Author Prompt
+    @Test
+    @DisplayName("Book Borrowing Listing Author Prompt")
+    void RESP_08_test_05() {
+        Main program = new Main();
+        program.InitializeLibrary();
 
+        String input = "user01\npass01\n1\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Isabelle Marlowe")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+
+    }
 
     // TODO: RESP-08_06 Book Borrowing Confirmation Prompt
+    @Test
+    @DisplayName("Book Borrowing Confirmation Prompt")
+    void RESP_08_test_06() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Please confirm the operation.")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP-08_07 Book Checked by ourself displayed
+    @Test
+    @DisplayName("Book Checked by ourself displayed")
+    void RESP_08_test_07() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("*Checked Out")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP-08_08 Book Held by ourself displayed
+    @Test
+    @DisplayName("Book Held by ourself displayed")
+    void RESP_08_test_08() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("*On Hold")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
 
     // TODO: RESP-09 Book Borrowing Validation
