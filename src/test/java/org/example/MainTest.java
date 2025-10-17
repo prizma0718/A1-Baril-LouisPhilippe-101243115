@@ -883,9 +883,49 @@ public class MainTest {
     // TODO: RESP-18 Logout Process
     // TODO: RESP_18_01 Logout Successful
     // So that the user can now log out
+    @Test
+    @DisplayName("Logout Successful")
+    void RESP_18_test_01() {
+        Main program = new Main();
+        program.InitializeLibrary();
 
-    // TODO: RESP_18_02 Return to Authentication
+        String input = "user01\npass01\n3\n"; // Logout
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (program.GetCurrentUser() == null) { // Prompt Check
+            assertion = true;
+        }
+
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_18_02 Initiate a new session without errors
     // So that it returns to the login screen
+    @Test
+    @DisplayName("Initiate a new session without errors")
+    void RESP_18_test_02() {
+        Main program = new Main();
+        program.InitializeLibrary();
 
-    // TODO: REST_18_03 Initiate a new session without errors
+        String input = "user01\npass01\n3\nuser02\npass02"; // Logout
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (program.GetCurrentUser().getUsername().equals("user02")) { // Prompt Check
+            assertion = true;
+        }
+
+        assertTrue(assertion);
+    }
 }
