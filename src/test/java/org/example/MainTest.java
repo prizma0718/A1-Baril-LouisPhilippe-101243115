@@ -673,11 +673,29 @@ public class MainTest {
     }
 
     // TODO: RESP-13 Book Holding Process
-    // TODO: RESP_13_01 Setting up the holding period
-    // So that book show specific details
-
-    // TODO: RESP_13_02 Setting up the hold status
+    // TODO: RESP_13_01 Setting up the hold status
     // So that book is now marked as hold
+    @Test
+    @DisplayName("Book Collection Prompt")
+    void RESP_13_test_01() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n7\n1\n1"; // Access the status of the page with the book holding
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        program.GetBook(6).setHoldId(1); // Book is held from another
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("On Hold")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
 
     // TODO: RESP-14 Book Holding Update
     // TODO: RESP_14_01 Book Holding Updated after return
