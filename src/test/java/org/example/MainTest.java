@@ -804,16 +804,38 @@ public class MainTest {
     }
 
     // TODO: RESP-16 Book Returning Process
-    // TODO: RESP_16_01 Setting up the return period
-    // So that book show specific details
-
-    // TODO: RESP_16_02 Setting up the returned status
+    // TODO: RESP_16_01 Setting up the returned status
     // So that book is now marked as returned
+    @Test
+    @DisplayName("Setting up the returned status")
+    void RESP_16_test_01() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n2\n7\n2\n"; // Invalid Value for the book
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        // The user have already 2 borrowed books.
+        program.GetBook(6).setBorrowedId(0);
+        program.GetBook(7).setBorrowedId(0);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (program.GetBook(6).getBorrowId() == 999) { // Confirm that the book is not borrowed anymore
+            assertion = true;
+        }
+        assertTrue(assertion);
+
+    }
 
     // TODO: RESP-17 Book Holding Update
-    // TODO: RESP_17_01 Book Holding Updated after return
+    // TODO: RESP_17_01 Book Must be shown as available
 
-    // TODO: RESP_17_02 Book Must be shown as available
+
+    // TODO: RESP_17_02 Book Must not be shown as available
 
     // TODO: RESP-18 Logout Process
     // TODO: RESP_18_01 Logout Successful
