@@ -799,8 +799,6 @@ public class MainTest {
     }
 
 
-
-
     // TODO: RESP-12 Book Holding Validation
     // TODO: RESP_12_01 Book Holding System on Available Book
     // In case the book can be hold
@@ -832,13 +830,6 @@ public class MainTest {
 
     // TODO: RESP_12_02 Book Holding Invalid Borrowed
     // Also the hold cannot be placed on oneself borrowed book
-
-    // TODO: RESP_12_03 Book Holding System Invalid if more than one book
-    // Make sure to check that the user who hold it is identified correctly, through User Object, not Book itself
-
-    // TODO: RESP_12_04 Book Holding Invalid Hold
-    // Also the hold cannot be placed on own hold book
-
     @Test
     @DisplayName("Book Holding Invalid Borrowed")
     void RESP_12_test_02() {
@@ -884,6 +875,33 @@ public class MainTest {
 
         boolean assertion = false;
         if (output.toString().contains("You already have a hold on this book.")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+    }
+
+    // TODO: RESP_12_04 Book Holding System Invalid if more than one book
+    // Make sure to check that the user who hold it is identified correctly, through User Object, not Book itself
+    @Test
+    @DisplayName("Book Holding System Invalid if more than one book")
+    void RESP_12_test_04() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n7\n1\n";
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+
+        // Book already held
+        program.GetBook(5).setHoldId(0);
+        program.GetBook(6).setBorrowedId(1);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("You already have a hold on a book.")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
