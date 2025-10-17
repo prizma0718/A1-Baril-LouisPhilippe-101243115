@@ -605,9 +605,9 @@ public class MainTest {
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
         // The user has 3 borrowed books
-        program.GetBook(6).setBorrowedId(1);
-        program.GetBook(7).setBorrowedId(1);
-        program.GetBook(8).setBorrowedId(1);
+        program.GetBook(6).setBorrowedId(0);
+        program.GetBook(7).setBorrowedId(0);
+        program.GetBook(8).setBorrowedId(0);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
@@ -634,7 +634,7 @@ public class MainTest {
 
 
         // Book borrowed ourself
-        program.GetBook(6).setBorrowedId(1);
+        program.GetBook(6).setBorrowedId(0);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
@@ -660,7 +660,7 @@ public class MainTest {
 
 
         // Book already held
-        program.GetBook(6).setHoldId(1);
+        program.GetBook(6).setHoldId(0);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
