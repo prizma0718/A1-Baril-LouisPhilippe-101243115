@@ -38,8 +38,6 @@ class MainATest {
         assertTrue(assertion);
     }
 
-    // UC-01 Complete Flow
-    /*
     // TODO: ATEST-02 Initialization and Authentication with Error Handling
     @Test
     @DisplayName("A-TEST-02")
@@ -64,5 +62,4 @@ class MainATest {
 
         assertTrue(assertion);
     }
-     */
 }
