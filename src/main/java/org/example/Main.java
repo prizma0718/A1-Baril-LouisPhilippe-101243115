@@ -308,7 +308,6 @@ public class Main {
                 borrowProcess(input, output);
             }
             else if(option.equals("2")){
-                output.println("----- RETURNING -----");
                 returnProcess(input, output);
             }
             else if(option.equals("3")){
@@ -482,6 +481,26 @@ public class Main {
     }
 
     public void returnProcess(Scanner input, PrintWriter output){
+        output.println("----- RETURNING -----");
+
+        // Get Current User ID
+        int userId = getCurrentUserId();
+
+        output.println("Currently borrowed books:");
+        output.flush();
+
+        // Find how many books the user is borrowing
+        int numBorrow = 0;
+        for(int i = 0; i < this.GetCatalogueSize(); i++){
+            if(this.GetBook(i).getBorrowId() == userId){
+                numBorrow += 1;
+                output.println(this.GetBook(i).getTitle());
+            }
+        }
+
+        if(numBorrow == 0){
+            output.println("No borrowed books.");
+        }
 
     }
 }
