@@ -311,6 +311,8 @@ public class Main {
             }
             else if(option.equals("3")){
                 output.println("Logout currently in progress...");
+                currentUser = null;
+                Authentication(input, output);
             }
             else{
                 output.println("Invalid Choice. Please Retry.");

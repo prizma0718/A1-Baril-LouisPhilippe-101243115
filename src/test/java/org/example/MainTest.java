@@ -921,6 +921,8 @@ public class MainTest {
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
+
+
         boolean assertion = false;
         if (program.GetCurrentUser().getUsername().equals("user02")) { // Prompt Check
             assertion = true;
