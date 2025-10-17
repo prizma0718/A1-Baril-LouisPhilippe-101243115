@@ -501,6 +501,41 @@ public class Main {
         if(numBorrow == 0){
             output.println("No borrowed books.");
         }
+        else {
+            while (true) {
+                int inputValue = 0;
+                output.println("Enter the # of the Book you want to return.");
+                output.flush();
+                try {
+                    inputValue = Integer.parseInt(input.nextLine()); // Read input as string and parse
+                } catch (NumberFormatException e) {
+                    output.println("Invalid input! Please enter a valid integer.");
+                    output.flush();
+                } catch (java.util.NoSuchElementException e) {
+                    output.println("Value missing. Exiting safely.");
+                    output.flush();
+                    break;
+                }
 
+                if(inputValue >= 1 && inputValue <= 20){
+                    if(this.GetBook(inputValue-1).getBorrowId() == userId){
+                        this.GetBook(inputValue-1).setBorrowedId(999);
+                        output.println("Book returned.");
+                        output.flush();
+                        break;
+                    }
+                    else{
+                        output.println("Book not returned.");
+                        output.flush();
+                        break;
+                    }
+                }
+                else{
+                    output.println("Book not returned.");
+                    output.flush();
+                    break;
+                }
+            }
+        }
     }
 }
