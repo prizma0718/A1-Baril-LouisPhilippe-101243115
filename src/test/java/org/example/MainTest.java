@@ -833,9 +833,52 @@ public class MainTest {
 
     // TODO: RESP-17 Book Holding Update
     // TODO: RESP_17_01 Book Must be shown as available
+    @Test
+    @DisplayName("Book Must be shown as available")
+    void RESP_17_test_01() {
+        Main program = new Main();
+        program.InitializeLibrary();
 
+        String input = "user02\npass02\n2\n7\n1\n"; // Invalid Value for the book
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        program.GetBook(6).setBorrowedId(1);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("7 | Threads of Infinity | Available")) { // Prompt Check
+            assertion = true;
+        }
+
+        assertTrue(assertion);
+
+    }
 
     // TODO: RESP_17_02 Book Must not be shown as available
+    @Test
+    @DisplayName("Book Must not be shown as available")
+    void RESP_17_test_02() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user02\npass02\n1\n7\n1\n"; // Invalid Value for the book
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("7 | Threads of Infinity | Checked Out")) { // Prompt Check
+            assertion = true;
+        }
+
+        assertTrue(assertion);
+    }
 
     // TODO: RESP-18 Logout Process
     // TODO: RESP_18_01 Logout Successful
