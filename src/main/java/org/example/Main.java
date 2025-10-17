@@ -494,7 +494,7 @@ public class Main {
         for(int i = 0; i < this.GetCatalogueSize(); i++){
             if(this.GetBook(i).getBorrowId() == userId){
                 numBorrow += 1;
-                output.println(this.GetBook(i).getTitle());
+                output.println(i+1 + " | " + this.GetBook(i).getTitle());
             }
         }
 
