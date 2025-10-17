@@ -595,7 +595,7 @@ public class MainTest {
     // TODO: RESP_09_02 Book Borrowing Invalid if Borrowed
     // In case the book cannot be borrowed
     @Test
-    @DisplayName("Book Borrowing Invalid")
+    @DisplayName("Book Borrowing Invalid if Borrowed")
     void RESP_09_test_02() {
         Main program = new Main();
         program.InitializeLibrary();
@@ -605,7 +605,7 @@ public class MainTest {
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
         // Book borrowed by someone else
-        program.GetBook(6).setHoldId(1);
+        program.GetBook(6).setBorrowedId(1);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
@@ -660,7 +660,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if (output.toString().contains("Book borrowing unsuccessful. You already have a hold on this book")) { // Prompt Check
+        if (output.toString().contains("Book borrowing unsuccessful. You already have a hold on this book.")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -697,7 +697,7 @@ public class MainTest {
         Main program = new Main();
         program.InitializeLibrary();
 
-        String input = "user01\npass01\n1\n7\n";
+        String input = "user01\npass01\n1\n12\n";
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
@@ -780,13 +780,13 @@ public class MainTest {
         Main program = new Main();
         program.InitializeLibrary();
 
-        String input = "user01\npass01\n1\n7\n1\n";
+        String input = "user01\npass01\n1\n7\n1\n1\n";
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
 
         // Book borrowed by someone else
-        program.GetBook(6).setHoldId(1);
+        program.GetBook(6).setBorrowedId(1);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
@@ -857,7 +857,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if (output.toString().contains("Book already borrowed.")) { // Prompt Check
+        if (output.toString().contains("You already have this book checked out.")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);
@@ -883,7 +883,7 @@ public class MainTest {
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if (output.toString().contains("Book already held.")) { // Prompt Check
+        if (output.toString().contains("You already have a hold on this book.")) { // Prompt Check
             assertion = true;
         }
         assertTrue(assertion);

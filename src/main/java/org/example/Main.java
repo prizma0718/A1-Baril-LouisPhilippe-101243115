@@ -392,12 +392,17 @@ public class Main {
 
                         // If we are borrowing or holding this book
                         if(this.GetBook(inputValue-1).getBorrowId() == userId){
-                            output.println("Book borrowing unsuccessful. Book already borrowed.");
+                            output.println("Book borrowing unsuccessful. You already have this book checked out.");
                             output.flush();
                             break;
                         }
                         else if(this.GetBook(inputValue-1).getHoldId() == userId){
-                            output.println("Book borrowing unsuccessful. Book already held.");
+                            output.println("Book borrowing unsuccessful. You already have a hold on this book.");
+                            output.flush();
+                            break;
+                        }
+                        else if(this.GetBook(inputValue-1).getHoldId() != 999){
+                            output.println("Book borrowing unsuccessful. Someone is onholding this book.");
                             output.flush();
                             break;
                         }
@@ -435,7 +440,7 @@ public class Main {
                         break;
                     }
                     else if(numBorrow >= 3){
-                        output.println("Book borrowing unsuccessful. Maximum number of borrowing books.");
+                        output.println("Book borrowing unsuccessful. Maximum borrowing limit reached.");
                         output.flush();
 
                         int bookIndex = inputValue - 1;
