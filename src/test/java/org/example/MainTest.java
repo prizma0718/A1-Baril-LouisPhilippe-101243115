@@ -482,6 +482,16 @@ public class MainTest {
 
     }
 
+    // TODO: RESP-08_05 Book Borrowing Listing Author Prompt
+
+
+    // TODO: RESP-08_06 Book Borrowing Confirmation Prompt
+
+    // TODO: RESP-08_07 Book Checked by ourself displayed
+
+    // TODO: RESP-08_08 Book Held by ourself displayed
+
+
     // TODO: RESP-09 Book Borrowing Validation
     // TODO: RESP_09_01 Book Borrowing Valid
     // In case the book can be borrowed
@@ -506,7 +516,7 @@ public class MainTest {
 
     }
 
-    // TODO: RESP_09_02 Book Borrowing Invalid
+    // TODO: RESP_09_02 Book Borrowing Invalid if Borrowed
     // In case the book cannot be borrowed
     @Test
     @DisplayName("Book Borrowing Invalid")
@@ -530,6 +540,21 @@ public class MainTest {
         }
         assertTrue(assertion);
     }
+
+    // TODO: RESP_09_03 Book Borrowing Invalid if Onhold from others
+
+    // TODO: RESP_09_04 Book Borrowing Invalid if Onhold from myself
+    // You already have a hold on this book
+
+    // TODO: RESP_09_05 Book Borrowing Invalid if Checked from myself
+    // You already have this book checked out
+
+    // TODO: RESP_09_06 Book Borrowing Invalid if 3 books or more
+    // maximum borrowing limit reached
+
+    // TODO: RESP_09_07 Book Borrowing Invalid if number outside range
+    // Return to the main menu with appropriate message
+
 
     // TODO: RESP-10 Book Borrowing Process
     // TODO: RESP_10_01 Setting up the 14-day period
@@ -590,6 +615,9 @@ public class MainTest {
         assertTrue(assertion);
     }
 
+
+
+
     // TODO: RESP-12 Book Holding Validation
     // TODO: RESP_12_01 Book Holding System on Available Book
     // In case the book can be hold
@@ -620,7 +648,13 @@ public class MainTest {
     }
 
     // TODO: RESP_12_02 Book Holding Invalid Borrowed
-    // Also the hold cannot be placed on oneself book
+    // Also the hold cannot be placed on oneself borrowed book
+
+    // TODO: RESP_12_03 Book Holding System Invalid if more than one book
+    // Make sure to check that the user who hold it is identified correctly, through User Object, not Book itself
+
+    // TODO: RESP_12_04 Book Holding Invalid Hold
+    // Also the hold cannot be placed on own hold book
 
     @Test
     @DisplayName("Book Holding Invalid Borrowed")
@@ -748,6 +782,8 @@ public class MainTest {
 
     }
 
+    // TODO: RESP_14_03 Displaying the Due Date on the Borrowed Books
+
     // TODO: RESP-15 Book Returning Validation
     // TODO: RESP_15_01 Book Returning Valid
     // In case the book can be returned
@@ -803,6 +839,9 @@ public class MainTest {
 
     }
 
+    // TODO: RESP_15_03 Book Returning Invalid if number outside range
+    // Return to the main menu with appropriate message
+
     // TODO: RESP-16 Book Returning Process
     // TODO: RESP_16_01 Setting up the returned status
     // So that book is now marked as returned
@@ -830,6 +869,8 @@ public class MainTest {
         assertTrue(assertion);
 
     }
+
+    // TODO: RESP_16_02 Deal with the onhold status from another user
 
     // TODO: RESP-17 Book Holding Update
     // TODO: RESP_17_01 Book Must be shown as available
@@ -879,6 +920,33 @@ public class MainTest {
 
         assertTrue(assertion);
     }
+
+    // TODO: RESP_17_03 Book Holding Update Success on Login
+    // Also the book must be shown as available from the user perspective
+    /*
+    @Test
+    @DisplayName("Book Holding Update Success on Login")
+    void RESP_17_test_03() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n1\n7\n1\n"; // Checjk
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        program.GetBook(6).setBorrowedId(1);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("7 | Threads of Infinity | Checked Out")) { // Prompt Check
+            assertion = true;
+        }
+
+        assertTrue(assertion);
+    }
+     */
 
     // TODO: RESP-18 Logout Process
     // TODO: RESP_18_01 Logout Successful
