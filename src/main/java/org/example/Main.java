@@ -380,6 +380,30 @@ public class Main {
                     if(this.GetBook(inputValue-1).getBorrowId() != 999 || this.GetBook(inputValue-1).getHoldId() != 999){
                         output.println("Book borrowing unsuccessful. Someone is borrowing this book.");
                         output.flush();
+
+                        int bookIndex = inputValue - 1;
+
+                        output.println("Do you want to hold this book for the future?");
+                        output.println("1. Yes");
+                        output.println("2. No");
+                        output.flush();
+                        try {
+                            inputValue = Integer.parseInt(input.nextLine()); // Read input as string and parse
+                        } catch (NumberFormatException e) {
+                            output.println("Invalid input! Please enter a valid integer.");
+                            output.flush();
+                        } catch (java.util.NoSuchElementException e) {
+                            output.println("Value missing. Exiting safely.");
+                            output.flush();
+                            break;
+                        }
+
+                        if(inputValue == 1){
+                            this.GetBook(bookIndex).setHoldId(userId);
+                            output.println("Book onhold successful.");
+                            output.flush();
+                        }
+
                         break;
                     }
                     else{
