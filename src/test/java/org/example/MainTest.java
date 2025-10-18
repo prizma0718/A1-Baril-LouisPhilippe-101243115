@@ -983,6 +983,28 @@ public class MainTest {
     }
 
     // TODO: RESP_14_03 Displaying the Due Date on the Borrowed Books
+    @Test
+    @DisplayName("Displaying the Due Date on the Borrowed Books")
+    void RESP_14_test_03() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n2"; // Access the status of the page with the book holding
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        program.GetBook(6).setBorrowedId(0);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Due:")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+
+    }
 
     // TODO: RESP-15 Book Returning Validation
     // TODO: RESP_15_01 Book Returning Valid
