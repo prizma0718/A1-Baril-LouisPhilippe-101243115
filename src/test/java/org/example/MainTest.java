@@ -1114,8 +1114,6 @@ public class MainTest {
 
     }
 
-    // TODO: RESP_16_02 Deal with the onhold status from another user
-
     // TODO: RESP-17 Book Holding Update
     // TODO: RESP_17_01 Book Must be shown as available
     @Test
@@ -1167,30 +1165,28 @@ public class MainTest {
 
     // TODO: RESP_17_03 Book Holding Update Success on Login
     // Also the book must be shown as available from the user perspective
-    /*
     @Test
     @DisplayName("Book Holding Update Success on Login")
     void RESP_17_test_03() {
         Main program = new Main();
         program.InitializeLibrary();
 
-        String input = "user01\npass01\n1\n7\n1\n"; // Checjk
+        String input = "user01\npass01\n1\n"; // Checjk
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
-        program.GetBook(6).setBorrowedId(1);
+        program.GetUser(0).setHoldBookId(6);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
         boolean assertion = false;
-        if (output.toString().contains("7 | Threads of Infinity | Checked Out")) { // Prompt Check
+        if (output.toString().contains("is now available.")) { // Prompt Check
             assertion = true;
         }
 
         assertTrue(assertion);
     }
-     */
 
     // TODO: RESP-18 Logout Process
     // TODO: RESP_18_01 Logout Successful
