@@ -602,9 +602,8 @@ public class Main {
                     }
                 }
                 else{
-                    output.println("Book not returned.");
+                    output.println("Book number invalid. Book not returned.");
                     output.flush();
-                    break;
                 }
             }
         }
