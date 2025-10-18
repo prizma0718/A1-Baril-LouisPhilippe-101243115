@@ -33,10 +33,10 @@ public class Main {
     public class Book{
         String title;
         String author;
-        boolean borrowed;
+        //boolean borrowed;
         int borrowId;
-        boolean hold;
-        int holdId;
+        //boolean hold;
+        //int holdId;
         LocalDate dueDate;
 
         public String getTitle(){
@@ -47,6 +47,7 @@ public class Main {
             return this.author;
         }
 
+        /*
         public Boolean getBorrowed(){
             return this.borrowed;
         }
@@ -54,6 +55,8 @@ public class Main {
         public void setBorrowed(boolean value){
             this.borrowed = value;
         }
+
+         */
 
         public void setBorrowedId(int userId){
             this.borrowId = userId;
@@ -63,6 +66,7 @@ public class Main {
             return this.borrowId;
         }
 
+        /*
         public int getHoldId(){
             return this.holdId;
         }
@@ -70,6 +74,7 @@ public class Main {
         public void setHoldId(int userId){
             this.holdId = userId;
         }
+         */
 
         public LocalDate getDueDate(){
             return this.dueDate;
@@ -84,7 +89,7 @@ public class Main {
     public class User{
         String username;
         String password;
-        boolean borrowing;
+        int holdBookId;
 
         public String getUsername(){
             return this.username;
@@ -94,11 +99,13 @@ public class Main {
             return this.password;
         }
 
-        public boolean getBorrowing(){
-            return this.borrowing;
+        public int getHoldBookId(){
+            return this.holdBookId;
         }
 
-
+        public void setHoldBookId(int value){
+            this.holdBookId = value;
+        }
     }
 
     ArrayList<Book> catalogue = new ArrayList<Book>();
@@ -136,9 +143,9 @@ public class Main {
 
         users = new ArrayList<User>();
 
-        this.AddUser("user01", "pass01", false);
-        this.AddUser("user02", "pass02", false);
-        this.AddUser("user03", "pass03", false);
+        this.AddUser("user01", "pass01");
+        this.AddUser("user02", "pass02");
+        this.AddUser("user03", "pass03");
 
     }
 
@@ -146,10 +153,7 @@ public class Main {
         Book b = new Book();
         b.title = title;
         b.author = author;
-        b.borrowed = borrowed;
         b.borrowId = 999;
-        b.holdId = 999;
-        b.hold = false;
         b.dueDate = LocalDate.now();
         catalogue.add(b);
     }
@@ -162,11 +166,10 @@ public class Main {
         return this.catalogue.size();
     }
 
-    public void OverwriteBook(int index, String title, String author, boolean borrowed){
+    public void OverwriteBook(int index, String title, String author){
         Book b = new Book();
         b.title = title;
         b.author = author;
-        b.borrowed = borrowed;
         catalogue.set(index, b);
     }
 
@@ -178,11 +181,11 @@ public class Main {
         return users.get(i);
     }
 
-    public void AddUser(String username, String password, boolean borrowing){
+    public void AddUser(String username, String password){
         User u = new User();
         u.username = username;
         u.password = password;
-        u.borrowing = borrowing;
+        u.holdBookId = 999;
         users.add(u);
     }
 
@@ -191,7 +194,7 @@ public class Main {
     }
 
     public void setBookHold(int bookId, int userId){
-        this.GetBook(bookId).setHoldId(userId);
+        this.GetUser(userId).setHoldBookId(bookId);
     }
 
     public void Authentication(Scanner input, PrintWriter output){
@@ -279,7 +282,7 @@ public class Main {
         // Find the User Book that is currently on hold
         output.flush();
         for(int i = 0; i < this.GetCatalogueSize(); i++){
-            if(this.GetBook(i).getHoldId() == userId && !this.GetBook(i).getBorrowed()){
+            if(this.GetCurrentUser().getHoldBookId() != 999){
                 output.println("The book " + this.GetBook(i).getTitle() + " is now available.");
                 output.flush();
                 //break;
@@ -359,10 +362,16 @@ public class Main {
                     String date = this.GetBook(i).getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                     output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | Checked Out, Due: " + date);
                 }
-                else if(this.GetBook(i).getHoldId() == userId){
+                else if(this.GetCurrentUser().getHoldBookId() == i){
                     output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | *On Hold");
                 }
-                else if(this.GetBook(i).getHoldId() != 999){
+                else if(this.getCurrentUserId() != 0 && this.GetUser(0).getHoldBookId() == i){
+                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | On Hold");
+                }
+                else if(this.getCurrentUserId() != 1 && this.GetUser(1).getHoldBookId() == i){
+                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | On Hold");
+                }
+                else if(this.getCurrentUserId() != 2 && this.GetUser(2).getHoldBookId() == i){
                     output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | On Hold");
                 }
                 else{
@@ -388,7 +397,16 @@ public class Main {
 
 
                 if(inputValue >= 1 && inputValue <= 20){
-                    if(this.GetBook(inputValue-1).getBorrowId() != 999 || this.GetBook(inputValue-1).getHoldId() != 999){
+
+                    boolean bookHeld = false;
+                    // Check if book is being hold by a user
+                    for(int i = 0; i < this.GetUsersSize(); i++){
+                        if(this.GetUser(i).getHoldBookId() == inputValue-1){
+                            bookHeld = true;
+                        }
+                    }
+
+                    if(this.GetBook(inputValue-1).getBorrowId() != 999 || bookHeld){
 
                         // If we are borrowing or holding this book
                         if(this.GetBook(inputValue-1).getBorrowId() == userId){
@@ -396,12 +414,17 @@ public class Main {
                             output.flush();
                             break;
                         }
-                        else if(this.GetBook(inputValue-1).getHoldId() == userId){
+                        else if(this.GetCurrentUser().getHoldBookId() == inputValue-1){
                             output.println("Book borrowing unsuccessful. You already have a hold on this book.");
                             output.flush();
                             break;
                         }
-                        else if(this.GetBook(inputValue-1).getHoldId() != 999){
+                        else if(this.GetCurrentUser().getHoldBookId() != 999){
+                            output.println("Book borrowing unsuccessful. You already have a hold on a book.");
+                            output.flush();
+                            break;
+                        }
+                        else if(bookHeld){
                             output.println("Book borrowing unsuccessful. Someone is onholding this book.");
                             output.flush();
                             break;
@@ -428,10 +451,13 @@ public class Main {
                         }
 
                         if(inputValue == 1){
-                            this.GetBook(bookIndex).setHoldId(userId);
+                            //this.GetBook(bookIndex).setHoldId(userId);
+                            this.GetCurrentUser().setHoldBookId(bookIndex);
                             output.println("Book onhold successful.");
                             output.flush();
                         }
+                        // TODO: Throw an error if more than 1 book is borrowed from the user holdBookId
+                        //else if(inputValue == 1 && )
                         else{
                             output.println("Book onhold unsuccessful.");
                             output.flush();
@@ -461,7 +487,8 @@ public class Main {
                         }
 
                         if(inputValue == 1){
-                            this.GetBook(bookIndex).setHoldId(userId);
+                            this.GetCurrentUser().setHoldBookId(bookIndex);
+                            //this.GetBook(bookIndex).setHoldId(userId);
                             output.println("Book onhold successful.");
                             output.flush();
                         }

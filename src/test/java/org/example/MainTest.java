@@ -37,9 +37,9 @@ public class MainTest {
 
         int catalogueSize = program.GetCatalogueSize(); // Get the Value
 
-        program.OverwriteBook(0, "Whispers in the Fog", "Eleanor Vance", false);
-        program.OverwriteBook(9, "When Stars Align", "Nathaniel Grey", false);
-        program.OverwriteBook(19, "Letters from the Void", "Samuel Quill", false);
+        program.OverwriteBook(0, "Whispers in the Fog", "Eleanor Vance");
+        program.OverwriteBook(9, "When Stars Align", "Nathaniel Grey");
+        program.OverwriteBook(19, "Letters from the Void", "Samuel Quill");
 
         // Verify the Entry
         boolean noMismatch = false;
@@ -70,7 +70,7 @@ public class MainTest {
         boolean noMismatch = true;
         for (int i = 0; i < catalogueSize; i++) {
             for (int j = 0; j < program.GetCatalogueSize(); j++) {
-                if (program.GetBook(i).getBorrowed()) {
+                if (program.GetBook(i).getBorrowId() != 999) {
                     noMismatch = false;
                 }
             }
@@ -119,7 +119,7 @@ public class MainTest {
     // TODO: RESP_02_03 User Collection no borrowing
     // Check if all user are initialized with no borrow
     @Test
-    @DisplayName(" User Collection no borrowing")
+    @DisplayName("User Collection no borrowing")
     void RESP_02_test_03() {
         Main program = new Main();
         program.InitializeLibrary();
@@ -129,7 +129,7 @@ public class MainTest {
         // test 2 - should be no duplicate values in deck, Computing
         boolean noMismatch = true;
         for (int i = 0; i < usersSize; i++) {
-            if (program.GetUser(i).getBorrowing()) {
+            if (program.GetUser(i).getHoldBookId() != 999) {
                 noMismatch = false;
             }
         }
@@ -254,7 +254,6 @@ public class MainTest {
 
         // Variable for the hold book check, on the book
         program.setBookHold(6, 0);
-        program.GetBook(6).setBorrowed(false); // The book is not borrowed by anyone else
 
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
@@ -469,7 +468,7 @@ public class MainTest {
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
         // Onhold a book
-        program.GetBook(1).setHoldId(0);
+        program.GetUser(0).setHoldBookId(1);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
@@ -556,7 +555,7 @@ public class MainTest {
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
-        program.GetBook(7).setHoldId(0);
+        program.GetUser(0).setHoldBookId(7);
 
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
@@ -629,7 +628,7 @@ public class MainTest {
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
         // Book borrowed by someone else
-        program.GetBook(6).setHoldId(1);
+        program.GetUser(1).setHoldBookId(6);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
@@ -654,7 +653,7 @@ public class MainTest {
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
         // Book borrowed by someone else
-        program.GetBook(6).setHoldId(0);
+        program.GetUser(0).setHoldBookId(6);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
@@ -868,7 +867,7 @@ public class MainTest {
 
 
         // Book already held
-        program.GetBook(6).setHoldId(0);
+        program.GetUser(0).setHoldBookId(6);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
@@ -894,7 +893,7 @@ public class MainTest {
 
 
         // Book already held
-        program.GetBook(5).setHoldId(0);
+        program.GetUser(0).setHoldBookId(5);
         program.GetBook(6).setBorrowedId(1);
 
         // The Menu should show at the beginning of the code
@@ -920,7 +919,7 @@ public class MainTest {
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
-        program.GetBook(6).setHoldId(1); // Book is held from another
+        program.GetUser(1).setHoldBookId(6);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
