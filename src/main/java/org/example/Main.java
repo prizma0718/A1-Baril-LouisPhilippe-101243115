@@ -500,7 +500,6 @@ public class Main {
                         break;
                     }
                     else{
-
                         int confirm = 0;
                         output.println("Please confirm the operation.");
                         output.println("1. Yes");
@@ -551,10 +550,6 @@ public class Main {
             output.println("Too many borrowing books. Please return books.");
             output.flush();
         }
-
-
-
-
     }
 
     public void returnProcess(Scanner input, PrintWriter output){
