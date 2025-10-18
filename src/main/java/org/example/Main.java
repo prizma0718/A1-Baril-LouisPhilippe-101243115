@@ -15,8 +15,6 @@ public class Main {
         // to see how IntelliJ IDEA suggests fixing it.
         System.out.println("COMP 4004 - Library Management System");
 
-        //String input = "user01\npass01\n";
-
         Scanner input = new Scanner(System.in);
         PrintWriter output = new PrintWriter(System.out);
 
@@ -33,10 +31,7 @@ public class Main {
     public class Book{
         String title;
         String author;
-        //boolean borrowed;
         int borrowId;
-        //boolean hold;
-        //int holdId;
         LocalDate dueDate;
 
         public String getTitle(){
@@ -47,17 +42,6 @@ public class Main {
             return this.author;
         }
 
-        /*
-        public Boolean getBorrowed(){
-            return this.borrowed;
-        }
-
-        public void setBorrowed(boolean value){
-            this.borrowed = value;
-        }
-
-         */
-
         public void setBorrowedId(int userId){
             this.borrowId = userId;
         }
@@ -65,16 +49,6 @@ public class Main {
         public int getBorrowId(){
             return this.borrowId;
         }
-
-        /*
-        public int getHoldId(){
-            return this.holdId;
-        }
-
-        public void setHoldId(int userId){
-            this.holdId = userId;
-        }
-         */
 
         public LocalDate getDueDate(){
             return this.dueDate;
@@ -285,7 +259,6 @@ public class Main {
             if(this.GetCurrentUser().getHoldBookId() != 999){
                 output.println("The book " + this.GetBook(i).getTitle() + " is now available.");
                 output.flush();
-                //break;
             }
         }
 
@@ -456,8 +429,7 @@ public class Main {
                             output.println("Book onhold successful.");
                             output.flush();
                         }
-                        // TODO: Throw an error if more than 1 book is borrowed from the user holdBookId
-                        //else if(inputValue == 1 && )
+
                         else{
                             output.println("Book onhold unsuccessful.");
                             output.flush();
@@ -488,7 +460,6 @@ public class Main {
 
                         if(inputValue == 1){
                             this.GetCurrentUser().setHoldBookId(bookIndex);
-                            //this.GetBook(bookIndex).setHoldId(userId);
                             output.println("Book onhold successful.");
                             output.flush();
                         }
@@ -601,9 +572,10 @@ public class Main {
                         output.flush();
                     }
                 }
-                else{
-                    output.println("Book number invalid. Book not returned.");
+                else if (inputValue == 0){
+                    output.println("Returning to main menu.");
                     output.flush();
+                    break;
                 }
             }
         }

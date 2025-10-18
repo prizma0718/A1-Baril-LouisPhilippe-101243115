@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MainATest {
 
-    // TODO: ATEST-01 Multi-User Borrow and Return with Availability Validated
+    // ATEST-01 Multi-User Borrow and Return with Availability Validated
     @Test
     @DisplayName("A-TEST-01")
     void A_TEST_01() {
@@ -38,7 +38,7 @@ class MainATest {
         assertTrue(assertion);
     }
 
-    // TODO: ATEST-02 Initialization and Authentication with Error Handling
+    // ATEST-02 Initialization and Authentication with Error Handling
     @Test
     @DisplayName("A-TEST-02")
     void A_TEST_02() {
