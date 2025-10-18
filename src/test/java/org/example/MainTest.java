@@ -1063,6 +1063,28 @@ public class MainTest {
 
     // TODO: RESP_15_03 Book Returning Invalid if number outside range
     // Return to the main menu with appropriate message
+    @Test
+    @DisplayName("Book Returning Invalid")
+    void RESP_15_test_03() {
+        Main program = new Main();
+        program.InitializeLibrary();
+
+        String input = "user01\npass01\n2\n12"; // Invalid Value for the book
+        StringWriter output = new StringWriter();
+        program.Authentication(new Scanner(input), new PrintWriter(output));
+
+        program.GetBook(6).setBorrowedId(0);
+
+        // The Menu should show at the beginning of the code
+        program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
+
+        boolean assertion = false;
+        if (output.toString().contains("Book number invalid. Book not returned.")) { // Prompt Check
+            assertion = true;
+        }
+        assertTrue(assertion);
+
+    }
 
     // TODO: RESP-16 Book Returning Process
     // TODO: RESP_16_01 Setting up the returned status
