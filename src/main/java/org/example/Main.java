@@ -33,6 +33,7 @@ public class Main {
         String author;
         int borrowId;
         LocalDate dueDate;
+        ArrayList<String> holdList;
 
         public String getTitle(){
             return this.title;
@@ -58,12 +59,30 @@ public class Main {
             this.dueDate = date;
         }
 
+        public String getNextUserHoldList(){
+            if(this.holdList.isEmpty()){
+                return "";
+            }
+
+            return this.holdList.getFirst();
+        }
+
+        public void addUserHoldList(String userId){
+            this.holdList.add(userId);
+        }
+
+        public void removeUserHoldList(){
+            if(!this.holdList.isEmpty()){
+                this.holdList.removeFirst();
+            }
+        }
+
+
     }
 
     public class User{
         String username;
         String password;
-        int holdBookId;
 
         public String getUsername(){
             return this.username;
@@ -71,14 +90,6 @@ public class Main {
 
         public String getPassword(){
             return this.password;
-        }
-
-        public int getHoldBookId(){
-            return this.holdBookId;
-        }
-
-        public void setHoldBookId(int value){
-            this.holdBookId = value;
         }
     }
 
@@ -94,32 +105,32 @@ public class Main {
         catalogue = new ArrayList<Book>();
 
         // Add the 20 Books into the Catalogue
-        this.AddBook("Whispers in the Fog", "Eleanor Vance", false);
-        this.AddBook("The Clockwork Garden", "Marcus Halloway", false);
-        this.AddBook("Shadows of the Forgotten", "Lila Brenner", false);
-        this.AddBook("A Lantern for Tomorrow", "Thomas Evers", false);
-        this.AddBook("The Silent Symphony", "Clara Whitmore", false);
-        this.AddBook("Beneath the Crimson Sky", "Julian Rook", false);
-        this.AddBook("Threads of Infinity", "Isabelle Marlowe", false);
-        this.AddBook("The Last Lighthouse Keeper", "Adrian Kells", false);
-        this.AddBook("Echoes of Amber", "Sophie Delacroix", false);
-        this.AddBook("When Stars Align", "Nathaniel Grey", false);
-        this.AddBook("The Paper Kingdom", "Victoria Ames", false);
-        this.AddBook("A Door in the Mountains", "Daniel Forsyth", false);
-        this.AddBook("The Forgotten Map", "Helena Carrick", false);
-        this.AddBook("Tides of Glass", "Oliver Bain", false);
-        this.AddBook("Voices of the Deep", "Madeline Frost", false);
-        this.AddBook("The Painter’s Secret", "Gabriel Thorne", false);
-        this.AddBook("Winds of Yesterday", "Emilia Hart", false);
-        this.AddBook("Beneath Neon Skies", " Jasper Linwood", false);
-        this.AddBook("The Great Gatsby", "Scott Fitzgerald", false);
-        this.AddBook("Letters from the Void", "Samuel Quill", false);
+        this.AddBook("The Great Gatsby", "F. Scott Fitzgerald", false);
+        this.AddBook("To Kill a Mockingbird", "Harper Lee", false);
+        this.AddBook("1984", "George Orwell", false);
+        this.AddBook("Pride and Prejudice", "Jane Austen", false);
+        this.AddBook("The Hobbit", "J.R.R. Tolkien", false);
+        this.AddBook("Harry Potter", "J.K. Rowling", false);
+        this.AddBook("The Catcher in the Rye", "J.D. Salinger", false);
+        this.AddBook("Animal Farm", "George Orwell", false);
+        this.AddBook("Lord of the Flies", "William Golding", false);
+        this.AddBook("Jane Eyre", "Charlotte Bronte", false);
+        this.AddBook("Wuthering Heights", "Emily Bronte", false);
+        this.AddBook("Moby Dick", "Herman Melville", false);
+        this.AddBook("The Odyssey", "Homer", false);
+        this.AddBook("Hamlet", "William Shakespeare", false);
+        this.AddBook("War and Peace", "Leo Tolstoy", false);
+        this.AddBook("The Divine Comedy", "Dante Alighieri", false);
+        this.AddBook("Crime and Punishment", "Fyodor Dostoevsky", false);
+        this.AddBook("Don Quixote", "Miguel de Cervantes", false);
+        this.AddBook("The Iliad", "Homer", false);
+        this.AddBook("Ulysses", "James Joyce", false);
 
         users = new ArrayList<User>();
 
-        this.AddUser("user01", "pass01");
-        this.AddUser("user02", "pass02");
-        this.AddUser("user03", "pass03");
+        this.AddUser("alice", "pass123");
+        this.AddUser("bob", "pass456");
+        this.AddUser("charlie", "pass789");
 
     }
 
@@ -129,6 +140,7 @@ public class Main {
         b.author = author;
         b.borrowId = 999;
         b.dueDate = LocalDate.now();
+        b.holdList = new ArrayList<>();
         catalogue.add(b);
     }
 
@@ -159,7 +171,6 @@ public class Main {
         User u = new User();
         u.username = username;
         u.password = password;
-        u.holdBookId = 999;
         users.add(u);
     }
 
@@ -167,8 +178,38 @@ public class Main {
         return currentUser;
     }
 
-    public void setBookHold(int bookId, int userId){
-        this.GetUser(userId).setHoldBookId(bookId);
+    // Check if the user has a hold on the book
+    public boolean GetBookHold(int bookId, String userId){
+        for(int i = 0; i < this.GetBook(bookId).holdList.size(); i++){
+            if(this.GetBook(bookId).holdList.get(i).equals(userId)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Check if the user has a hold on a book
+    public boolean GetUserHold(String userId){
+        for(int i = 0; i < 20; i++){
+            if(this.GetBookHold(i, userId)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Get the Current User ID
+    public int getCurrentUserId() {
+
+        if (this.currentUser != null) {
+            for (int i = 0; i < this.GetUsersSize(); i++) {
+                if (this.GetUser(i).getUsername().equals(currentUser.getUsername())) {
+                    return i;
+                }
+            }
+        }
+
+        return 999; // If invalid;
     }
 
     public void Authentication(Scanner input, PrintWriter output){
@@ -182,7 +223,7 @@ public class Main {
         output.println("Please log in.");
         output.flush();
 
-        while(valid == false){
+        while(!valid){
 
             // Username Prompt
             output.println("Username:");
@@ -218,6 +259,9 @@ public class Main {
             }
             else{
                 output.println("Welcome, " + username + "!");
+
+
+
             }
             output.flush();
         }
@@ -229,40 +273,29 @@ public class Main {
             }
         }
 
-    }
-
-    // Get the Current User ID
-    public int getCurrentUserId(){
-
-        if(currentUser != null){
-            for(int i = 0; i < this.GetUsersSize(); i++){
-                if(this.GetUser(i).getUsername().equals(currentUser.getUsername())){
-                    return i;
-                }
-            }
-        }
-
-        return 999; // If invalid;
-    }
-
-    public void Start(Scanner input, PrintWriter output) {
-        output.println("Logged in as " + currentUser.getUsername() + ".");
-        output.flush();
-
-        // Get the UserID of the Current User
-        int userId = getCurrentUserId();
-
         // Check if Book on hold is available
         // Find the User Book that is currently on hold
         output.flush();
         for(int i = 0; i < this.GetCatalogueSize(); i++){
-            if(this.GetCurrentUser().getHoldBookId() != 999){
-                output.println("The book " + this.GetBook(i).getTitle() + " is now available.");
+            //output.println(this.GetBook(i).holdList);
+            //output.flush();
+            if(this.GetBook(i).getNextUserHoldList().equals(username) && this.GetBook(i).getBorrowId() != getCurrentUserId()){
+                output.println("NOTICE: The book " + this.GetBook(i).getTitle() + " is now available.");
                 output.flush();
             }
         }
 
+    }
+
+
+
+    public void Start(Scanner input, PrintWriter output) {
+
+
+
+        // Main Program Loop
         while(true){
+
 
 
             String option = "";
@@ -283,20 +316,22 @@ public class Main {
             }
 
 
-            if(option.equals("1")){
+            switch(option) {
+                case "1":
+                    borrowProcess(input, output);
+                    break;
+                case "2":
+                    returnProcess(input, output);
+                    break;
+                case "3":
+                    output.println("Logout currently in progress...");
+                    currentUser = null;
+                    Authentication(input, output);
+                    break;
+                default:
+                    output.println("Invalid Choice. Please Retry.");
 
-                borrowProcess(input, output);
-            }
-            else if(option.equals("2")){
-                returnProcess(input, output);
-            }
-            else if(option.equals("3")){
-                output.println("Logout currently in progress...");
-                currentUser = null;
-                Authentication(input, output);
-            }
-            else{
-                output.println("Invalid Choice. Please Retry.");
+
             }
 
             output.flush();
@@ -335,16 +370,19 @@ public class Main {
                     String date = this.GetBook(i).getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                     output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | Checked Out, Due: " + date);
                 }
-                else if(this.GetCurrentUser().getHoldBookId() == i){
+                else if(this.GetBook(i).getNextUserHoldList().equals(currentUser.username)){
+                    output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | *On Hold (Available)");
+                }
+                else if(this.GetBookHold(i, currentUser.getUsername())){
                     output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | *On Hold");
                 }
-                else if(this.getCurrentUserId() != 0 && this.GetUser(0).getHoldBookId() == i){
+                else if(this.getCurrentUserId() != 0 && this.GetBookHold(i, this.GetUser(0).getUsername())){
                     output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | On Hold");
                 }
-                else if(this.getCurrentUserId() != 1 && this.GetUser(1).getHoldBookId() == i){
+                else if(this.getCurrentUserId() != 1 && this.GetBookHold(i, this.GetUser(1).getUsername())){
                     output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | On Hold");
                 }
-                else if(this.getCurrentUserId() != 2 && this.GetUser(2).getHoldBookId() == i){
+                else if(this.getCurrentUserId() != 2 && this.GetBookHold(i, this.GetUser(2).getUsername())){
                     output.println(i+1 + " | " + this.GetBook(i).getTitle() + " | " + this.GetBook(i).getAuthor() + " | On Hold");
                 }
                 else{
@@ -371,15 +409,8 @@ public class Main {
 
                 if(inputValue >= 1 && inputValue <= 20){
 
-                    boolean bookHeld = false;
-                    // Check if book is being hold by a user
-                    for(int i = 0; i < this.GetUsersSize(); i++){
-                        if(this.GetUser(i).getHoldBookId() == inputValue-1){
-                            bookHeld = true;
-                        }
-                    }
 
-                    if(this.GetBook(inputValue-1).getBorrowId() != 999 || bookHeld){
+                    if(this.GetBook(inputValue-1).getBorrowId() != 999){
 
                         // If we are borrowing or holding this book
                         if(this.GetBook(inputValue-1).getBorrowId() == userId){
@@ -387,22 +418,19 @@ public class Main {
                             output.flush();
                             break;
                         }
-                        else if(this.GetCurrentUser().getHoldBookId() == inputValue-1){
+                        else if(this.GetBookHold(inputValue-1, currentUser.getUsername())){
                             output.println("Book borrowing unsuccessful. You already have a hold on this book.");
                             output.flush();
                             break;
                         }
-                        else if(this.GetCurrentUser().getHoldBookId() != 999){
-                            output.println("Book borrowing unsuccessful. You already have a hold on a book.");
-                            output.flush();
-                            break;
-                        }
-                        else if(bookHeld){
-                            output.println("Book borrowing unsuccessful. Someone is onholding this book.");
+                        else if(this.GetUserHold(currentUser.getUsername())){
+                            output.println("Book borrowing unsuccessful. You already have a hold on another book.");
                             output.flush();
                             break;
                         }
 
+
+                        // When someone is borrowing this book
                         output.println("Book borrowing unsuccessful. Someone is borrowing this book.");
                         output.flush();
 
@@ -424,8 +452,7 @@ public class Main {
                         }
 
                         if(inputValue == 1){
-                            //this.GetBook(bookIndex).setHoldId(userId);
-                            this.GetCurrentUser().setHoldBookId(bookIndex);
+                            this.GetBook(bookIndex).addUserHoldList(currentUser.getUsername());
                             output.println("Book onhold successful.");
                             output.flush();
                         }
@@ -459,7 +486,7 @@ public class Main {
                         }
 
                         if(inputValue == 1){
-                            this.GetCurrentUser().setHoldBookId(bookIndex);
+                            this.GetBook(bookIndex).addUserHoldList(currentUser.getUsername());
                             output.println("Book onhold successful.");
                             output.flush();
                         }
@@ -472,6 +499,11 @@ public class Main {
                     }
                     else{
                         int confirm = 0;
+                        LocalDate expectedDate = LocalDate.now().plusDays(14);
+                        String date = expectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                        output.println("BOOK INFORMATION:");
+                        output.println(inputValue + " | " + this.GetBook(inputValue-1).getTitle() + " | " + this.GetBook(inputValue-1).getAuthor());
+                        output.println("Expected Return Date: " + date);
                         output.println("Please confirm the operation.");
                         output.println("1. Yes");
                         output.println("2. No");
@@ -494,6 +526,16 @@ public class Main {
                             // Set the Due date for 2 weeks later
                             LocalDate futureDate = LocalDate.now().plusDays(14);
                             this.GetBook(inputValue-1).setDueDate(futureDate);
+
+                            // Set the hold list parameters in case the user is currently holding that book
+                            if(this.GetBook(inputValue-1).getNextUserHoldList().equals(currentUser.getUsername())){
+                                this.GetBook(inputValue-1).removeUserHoldList();
+                            }
+
+                            // Set that book in the holdlist
+                            this.GetBook(inputValue-1).addUserHoldList(currentUser.getUsername());
+
+                            output.println("Book borrowing successful.");
 
                             output.flush();
                             break;
@@ -562,10 +604,36 @@ public class Main {
 
                 if(inputValue >= 1 && inputValue <= 20){
                     if(this.GetBook(inputValue-1).getBorrowId() == userId){
-                        this.GetBook(inputValue-1).setBorrowedId(999);
-                        output.println("Book returned.");
+
+                        int confirm = 0;
+                        output.println("BOOK INFORMATION:");
+                        output.println(inputValue + " | " + this.GetBook(inputValue-1).getTitle() + " | " + this.GetBook(inputValue-1).getAuthor());
+                        output.println("Please confirm the operation.");
+                        output.println("1. Yes");
+                        output.println("2. No");
                         output.flush();
-                        break;
+                        try {
+                            confirm = Integer.parseInt(input.nextLine()); // Read input as string and parse
+                        } catch (NumberFormatException e) {
+                            output.println("Invalid input! Please enter a valid integer.");
+                            output.flush();
+                        } catch (java.util.NoSuchElementException e) {
+                            output.println("Value missing. Exiting safely.");
+                            output.flush();
+                            break;
+                        }
+
+                        if(confirm == 1){
+                            this.GetBook(inputValue-1).setBorrowedId(999);
+                            this.GetBook(inputValue-1).removeUserHoldList();
+                            output.println("Book returned.");
+                            output.flush();
+                            break;
+                        }
+                        else{
+                            output.println("Returning to book listing.");
+                            output.flush();
+                        }
                     }
                     else{
                         output.println("Book number invalid. Book not returned.");
