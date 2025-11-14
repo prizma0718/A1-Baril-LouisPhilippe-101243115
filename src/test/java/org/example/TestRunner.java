@@ -1,3 +1,6 @@
+// Louis-Philippe Baril
+// #101243115
+
 package org.example;
 
 import org.junit.platform.suite.api.ConfigurationParameter;
@@ -14,7 +17,7 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 @IncludeEngines("cucumber")
 @SelectClasspathResource("features")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty, html:target/cucumber-report.html")
-@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "steps")
+@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "org.example")
 public class TestRunner {
 }
 

@@ -56,7 +56,7 @@ class MainATest {
         boolean assertion = false;
 
         // Check of conditions
-        if(program.GetCatalogueSize() == 20 && program.GetUsersSize() == 3 && output.toString().contains("Welcome, user03!") && output.toString().contains("Login invalid, please retry.") && program.getCurrentUserId() == 999){
+        if(program.GetCatalogueSize() == 20 && program.GetUsersSize() == 3 && output.toString().contains("Welcome, user03!") && output.toString().contains("Login invalid, please retry.") && program.GetUserId(program.currentUser.getUsername()) == 999){
             assertion = true;
         }
 

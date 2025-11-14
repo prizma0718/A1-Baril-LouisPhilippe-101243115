@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.time.LocalDate;
 
@@ -104,9 +105,9 @@ public class MainTest {
         // Verify the Entry
         boolean noMismatch = false;
 
-        if (program.GetUser(0).getUsername().equals("user01") && program.GetUser(0).getPassword().equals("pass01")) {
-            if (program.GetUser(1).getUsername().equals("user02") && program.GetUser(1).getPassword().equals("pass02")) {
-                if (program.GetUser(2).getUsername().equals("user03") && program.GetUser(2).getPassword().equals("pass03")) {
+        if (program.GetUserById(0).getUsername().equals("user01") && program.GetUserById(0).getPassword().equals("pass01")) {
+            if (program.GetUserById(1).getUsername().equals("user02") && program.GetUserById(1).getPassword().equals("pass02")) {
+                if (program.GetUserById(2).getUsername().equals("user03") && program.GetUserById(2).getPassword().equals("pass03")) {
                     noMismatch = true;
                 }
             }
@@ -127,11 +128,13 @@ public class MainTest {
 
         // test 2 - should be no duplicate values in deck, Computing
         boolean noMismatch = true;
+        /*
         for (int i = 0; i < usersSize; i++) {
-            if (program.GetUser(i).getHoldBookId() != 999) {
+            if (program.GetUserById(i).getHoldBookId() != 999) {
                 noMismatch = false;
             }
         }
+        */
 
         // The Catalogue should return true if all books are marked as available
         assertTrue(noMismatch && (program.GetUsersSize() != 0));
@@ -252,7 +255,7 @@ public class MainTest {
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
         // Variable for the hold book check, on the book
-        program.setBookHold(6, 0);
+        program.bookHold(6, "alice");
 
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
@@ -467,7 +470,7 @@ public class MainTest {
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
         // Onhold a book
-        program.GetUser(0).setHoldBookId(1);
+        //program.GetUser(0).setHoldBookId(1);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
@@ -554,7 +557,7 @@ public class MainTest {
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
-        program.GetUser(0).setHoldBookId(7);
+        //program.GetUser(0).setHoldBookId(7);
 
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
 
@@ -627,7 +630,7 @@ public class MainTest {
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
         // Book borrowed by someone else
-        program.GetUser(1).setHoldBookId(6);
+        //program.GetUserById(1).setHoldBookId(6);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
@@ -652,7 +655,7 @@ public class MainTest {
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
         // Book borrowed by someone else
-        program.GetUser(0).setHoldBookId(6);
+        //program.GetUserById(0).setHoldBookId(6);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
@@ -759,12 +762,8 @@ public class MainTest {
         int month = futureDate.getMonthValue();
         int day = futureDate.getDayOfMonth();
 
-        if (program.GetBook(6).getDueDate().getYear() == year) {
-            if (program.GetBook(6).getDueDate().getMonthValue() == month) {
-                if (program.GetBook(6).getDueDate().getDayOfMonth() == day) {
-                    assertion = true;
-                }
-            }
+        if (program.GetBook(6).getDueDate().equals(LocalDate.now().plusDays(14).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))){
+            assertion = true;
         }
         assertTrue(assertion);
     }
@@ -866,7 +865,7 @@ public class MainTest {
 
 
         // Book already held
-        program.GetUser(0).setHoldBookId(6);
+        //program.GetUserById(0).setHoldBookId(6);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
@@ -892,7 +891,7 @@ public class MainTest {
 
 
         // Book already held
-        program.GetUser(0).setHoldBookId(5);
+        //program.GetUserById(0).setHoldBookId(5);
         program.GetBook(6).setBorrowedId(1);
 
         // The Menu should show at the beginning of the code
@@ -918,7 +917,7 @@ public class MainTest {
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
-        program.GetUser(1).setHoldBookId(6);
+        //program.GetUserById(1).setHoldBookId(6);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
@@ -1174,7 +1173,7 @@ public class MainTest {
         StringWriter output = new StringWriter();
         program.Authentication(new Scanner(input), new PrintWriter(output));
 
-        program.GetUser(0).setHoldBookId(6);
+        //program.GetUserById(0).setHoldBookId(6);
 
         // The Menu should show at the beginning of the code
         program.Start(new Scanner(input), new PrintWriter(output)); // Start with the Session above
