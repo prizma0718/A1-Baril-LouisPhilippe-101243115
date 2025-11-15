@@ -10,34 +10,47 @@ Feature: Book Library Operations
     When user "alice" return the book 1
     Then that book 1 becomes available to "bob"
 
-  Scenario: multiple_holds_queue_processing
-    Given user "charlie" borrowing book 1
-    When user "alice" place a hold on the book 1
-    Then that book 1 is held from user "alice"
-    When another user "bob" try to place a hold on that book 1
-    Then that user "bob" is placed on a fifo queue of the book 1
-    When the book 1 becomes available from user "charlie"
-    Then the first user in the fifo queue "alice" is alerted of the book 1
-    And only the user "alice" can borrow that book 1
-    When that user "alice" borrow that book 1
-    Then that book 1 is held from the next user "bob" in fifo queue
+  Scenario Outline: multiple_holds_queue_processing
+    Given user <user3> borrowing book <bookId>
+    When user <user1> place a hold on the book <bookId>
+    Then that unavailable book <bookId> is held from user <user1>
+    When another user <user2> try to place a hold on that book <bookId>
+    Then that user <user2> is placed on a fifo queue of the book <bookId>
+    When the book <bookId> becomes available from user <user3>
+    Then the first user in the fifo queue <user1> is alerted of the book <bookId>
+    And only the user <user1> can borrow that book <bookId>
+    When that user <user1> borrow that book <bookId>
+    Then that book <bookId> is held from the next user <user2> in fifo queue
 
-  Scenario: borrowing_limit_and_hold_interactions
-    Given user "alice" borrowing book three books and "bob" holding book 1
-    When user "alice" try to borrow a fourth book 4
+    Examples:
+      | user1 | user2 | user3 | bookId |
+      | "alice"    | "bob"    | "charlie" | 1 |
+
+   Scenario Outline: borrowing_limit_and_hold_interactions
+    Given user <user1> borrowing book three books and <user2> holding book <bookId>
+    When user <user1> try to borrow a fourth book <bookHold>
     Then that book cannot be borrowed
-    When user "alice" place a hold on the book 4
-    Then that book 4 is held from user "alice"
-    When user "alice" return the book 1
-    Then that user "alice" can borrow another book 5
-    When user "bob" will be back in the session
-    Then the first user in the fifo queue "bob" is alerted of the book 1
+    When user <user1> place a hold on the book <bookHold>
+    Then that available book <bookHold> is held from user <user1>
+    When user <user1> return the book <bookId>
+    Then that user <user1> can borrow another book <bookId2>
+    When user <user2> will be back in the session
+    Then the first user in the fifo queue <user2> is alerted of the book <bookId>
 
-  Scenario: no_books_borrowed_scenario
-    Given the user "alice" with no books
-    When the user "alice" does not have books
+     Examples:
+       | user1 | user2 | bookHold | bookId | bookId2 |
+       | "alice"    | "bob"    | 4 | 1 | 5           |
+
+  Scenario Outline: no_books_borrowed_scenario
+    Given the user <user> with no books
+    When the user <user> does not have books
     Then the system display a no books prompt
-    When user "alice" borrow the book 1
+    When user <user> borrow the book <bookId>
     Then the system do not display a no books prompt
-    When user "alice" return the book 1
+    When user <user> return the book <bookId>
     Then the system display all books as available
+
+    Examples:
+      | user | bookId |
+      | "alice"    | 1    |
+

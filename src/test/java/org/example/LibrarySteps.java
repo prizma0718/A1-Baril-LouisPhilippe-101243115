@@ -63,10 +63,16 @@ public class LibrarySteps {
         success = program.bookHold(bookId,username);
     }
 
-    @Then("that book {int} is held from user {string}")
-    public void book_hold_success(int bookId, String username) {
+    @Then("that available book {int} is held from user {string}")
+    public void book_hold_success_1(int bookId, String username) {
         assertTrue(success); // Return of the command
-        assertTrue(program.GetBookHold(bookId, username)); // Check if Alice is in the holdqueue
+        assertEquals(program.getHoldQueue(bookId).getFirst(), username); // Check if Alice is in the holdqueue
+    }
+
+    @Then("that unavailable book {int} is held from user {string}")
+    public void book_hold_success_2(int bookId, String username) {
+        assertTrue(success); // Return of the command
+        assertEquals(program.getHoldQueue(bookId).getLast(), username); // Check if Alice is in the holdqueue
     }
 
     @When("another user {string} try to place a hold on that book {int}")
