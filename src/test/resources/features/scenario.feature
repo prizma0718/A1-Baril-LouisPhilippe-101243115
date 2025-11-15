@@ -4,7 +4,7 @@ Feature: Book Library Operations
   So that I can borrow books on my name
 
   Scenario: A1_scenario
-    Given two users "alice" "bob" with password "pass123" "pass456"
+    Given two users "alice" and "bob"
     When user "alice" borrow the book 1
     Then that book 1 becomes unavailable to "bob"
     When user "alice" return the book 1

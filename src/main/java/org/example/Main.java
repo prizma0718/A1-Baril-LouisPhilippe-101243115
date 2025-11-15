@@ -65,13 +65,13 @@ public class Main {
             if(this.holdList.isEmpty()){
                 return "";
             }
-            
+
             return this.holdList.getFirst();
         }
 
         // Add the User from the Hold List
-        public void addUserHoldList(String userId){
-            this.holdList.add(userId);
+        public void addUserHoldList(String username){
+            this.holdList.add(username);
         }
 
         // Remove the User from the Hold List
@@ -218,10 +218,14 @@ public class Main {
     // Check if the user has a hold on the book
     // DO NOT CHECK THE First Value, since it is the borrower
     public boolean GetBookHold(int bookId, String userId){
-        for(int i = 1; i < this.GetBook(bookId).holdList.size(); i++){
-            if(this.GetBook(bookId).holdList.get(i).equals(userId)){
+        for(int i = 0; i < this.GetBook(bookId).holdList.size(); i++){
+            if(this.GetBook(bookId).holdList.get(0).equals(userId) && this.GetBook(bookId).getBorrowId() == this.GetUserId(this.GetBook(bookId).holdList.get(0))){
+                return false;
+            }
+            else if(this.GetBook(bookId).holdList.get(i).equals(userId)){
                 return true;
             }
+
         }
         return false;
     }
@@ -299,7 +303,8 @@ public class Main {
         StringBuilder notify = new StringBuilder();
         for(int i = 0; i < this.GetCatalogueSize(); i++){
 
-            if(this.GetBook(i).getNextUserHoldList().equals(username) && this.GetBook(i).getBorrowId() != GetUserId(currentUser.getUsername())){
+            if(this.GetBook(i).getNextUserHoldList().equals(username)){
+                //if(this.GetBook(i).getNextUserHoldList().equals(username) && this.GetBook(i).getBorrowId() != GetUserId(currentUser.getUsername())){
                 notify.append("NOTICE: The book ").append(this.GetBook(i).getTitle()).append(" is now available.\n");
             }
         }
@@ -312,22 +317,17 @@ public class Main {
         if(this.GetBook(bookId).getBorrowId() == 999 && getBorrowedBooksCount() < 3) {
 
             if(this.getHoldQueue(bookId).isEmpty() || this.getHoldQueue(bookId).getFirst().equals(username)){
+
                 this.GetBook(bookId).setBorrowedId(this.GetUserId(username));
 
                 // Set the Due date for 2 weeks later
                 LocalDate futureDate = LocalDate.now().plusDays(14);
                 this.GetBook(bookId).setDueDate(futureDate);
 
-
-                // Set the hold list parameters in case the user is currently holding that book
-                /*
-                if (this.GetBook(bookId).getNextUserHoldList().equals(username)) {
-                    this.GetBook(bookId).removeUserHoldList();
+                // In case if the user is already holding the book
+                if(!this.GetBookHold(bookId, username)){
+                    this.GetBook(bookId).addUserHoldList(username);
                 }
-                */
-
-                // Set the user in the holdlist
-                this.GetBook(bookId).addUserHoldList(username);
 
                 return true;
             }

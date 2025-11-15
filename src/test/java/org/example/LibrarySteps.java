@@ -14,12 +14,11 @@ public class LibrarySteps {
     private Main program;
 
     // 1. A1_Scenario
-    @Given("two users {string} {string} with password {string} {string}")
-    public void a1_scenario_init(String user1, String user2, String pass1, String pass2) {
+    @Given("two users {string} and {string}")
+    public void a1_scenario_init(String user1, String user2) {
         program = new Main();
         program.InitializeLibrary();
-        program.AddUser(user1, pass1);
-        program.AddUser(user2, pass2);
+        program.InitializeUsers();
 
         program.SetCurrentUser(user1);
     }
@@ -67,6 +66,7 @@ public class LibrarySteps {
     @Then("that book {int} is held from user {string}")
     public void book_hold_success(int bookId, String username) {
         assertTrue(success); // Return of the command
+        assertTrue(program.GetBookHold(bookId, username)); // Check if Alice is in the holdqueue
     }
 
     @When("another user {string} try to place a hold on that book {int}")
@@ -119,6 +119,8 @@ public class LibrarySteps {
         program.InitializeUsers();
 
         program.SetCurrentUser(user1);
+
+        // 3 Books are borrowed from the same user and 1 is held from another user
         program.bookBorrow(1, user1);
         program.bookBorrow(2, user1);
         program.bookBorrow(3, user1);
@@ -147,7 +149,6 @@ public class LibrarySteps {
     @When("user {string} will be back in the session")
     public void book_borrow_success(String username) {
         program.SetCurrentUser(username);
-        System.out.println(program.getHoldQueue(1).getFirst());
     }
 
     // 4. No Books Borrowed Scenario
