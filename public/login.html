@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library System - Login</title>
+</head>
+<body>
+    <h1>Welcome to Item Manager</h1>
+    
+    <div>
+        <h3>User Login</h3>
+        <input type="text" id="username" placeholder="Username">
+        <br>
+        <input type="password" id="password" placeholder="Password">
+        <button id="loginButton">Login</button>
+    </div>
+
+    <script>
+        const nameInput = document.getElementById('username');
+        const passInput = document.getElementById('password');
+        const startButton = document.getElementById('loginButton');
+
+        loginButton.addEventListener('click', async () => {
+            const username = nameInput.value.trim();
+            const password = passInput.value.trim();
+            
+            if (!username || !password) {
+                alert('Please enter your credentials');
+                return;
+            }
+
+            try {
+                // Send name to server
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user: username, pass: password })
+                });
+
+                if (response.ok) {
+                    // Redirect to main page after successful start
+                    window.location.href = '/index.html';
+                } else {
+                    alert('Login failed');
+                }
+            } catch (error) {
+                console.error('Error during login:', error);
+                alert('Error during login');
+            }
+        });
+
+        // Allow Enter key to submit
+        nameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loginButton.click();
+            }
+        });
+        // Allow Enter key to submit
+        passInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                loginButton.click();
+            }
+        });
+    </script>
+</body>
+</html>

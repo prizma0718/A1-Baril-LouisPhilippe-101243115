@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library System</title>
+</head>
+<body>
+    <h1 id="welcomeMessage">Library Management System</h1>
+    <h2>Program Input</h2>
+    <input type="text" id="itemInput" placeholder="Enter input here:">
+    <button id="submitButton">Submit</button>
+    <button id="logoutButton">Logout</button>
+    
+    <h2>Program Output</h2>
+    <div id="itemList"></div>
+
+    <script>
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        const itemInput = document.getElementById('itemInput');
+        const submitButton = document.getElementById('submitButton');
+        const itemList = document.getElementById('itemList');
+
+        // Load user info from server
+        loadUser();
+        loadOutput();
+
+        async function loadUser() {
+            try {
+                const response = await fetch('/api/user');
+                if (response.ok) {
+                    const data = await response.json();
+                    welcomeMessage.textContent = `Welcome ${data.name}!`;
+                }
+            } catch (error) {
+                console.error('Error loading user:', error);
+            }
+        }
+
+        // When Button is Submitted, receive the output data from API
+        submitButton.addEventListener('click', async () => {
+            itemList.innerHTML = '';
+            const itemName = itemInput.value.trim();
+            if (!itemName) return;
+            console.log(itemName);
+
+            const response = await fetch('/api/output', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ inputValue: itemName })
+            });
+
+            if (response.ok) {
+                const output = await response.json();
+                loadOutput(output);
+                itemInput.value = '';
+            }
+        });
+
+        async function loadOutput() {
+            itemList.innerHTML = '';
+            const response = await fetch('/api/output');
+            const output = await response.json();
+            const outputDiv = document.createElement('div');
+
+            const lines = output.split("\n");
+            lines.forEach(line => {
+                const p = document.createElement('p');
+                p.textContent = line;
+                itemList.appendChild(p);
+            });
+        }
+
+        // Logout Function
+        logoutButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/logout');
+                if (response.ok) {
+                    const data = await response.json();
+                    window.location.href = "/login.html";
+                }
+            } catch (error) {
+                alert("Logout Error");
+            }
+        });
+
+    </script>
+</body>
+</html>
