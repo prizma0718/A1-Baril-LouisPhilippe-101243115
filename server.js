@@ -16,17 +16,32 @@ async function main(){
     app.use(express.static('public'));
 
     // Initialize the main program and its users at start
-    const library = new LibraryProgram();
+    let library = new LibraryProgram();
     await library.InitializeLibrary();
     await library.InitializeUsers();
 
     // Default Endpoint
     app.get('/', (req, res) => {
-      res.redirect('/login');
+      res.sendFile(path.join(__dirname, 'public/login.html'));
+    });
+
+    // Redirecion to the Login Page
+    app.get('/index', (req, res) => {
+        if (!currentUser) {
+            return res.redirect("/login");
+        }
+        res.sendFile(path.join(__dirname, 'public/index.html'));
     });
 
     // Login endpoint
     app.post('/api/login', (req, res) => {
+
+      // Reset the Variables when login request
+      currentUser = null;
+      library.SetCurrentUser(null);
+      output = "";
+
+      // Authentication Process
       const { user, pass } = req.body;
       const username = library.GetUserByUsername(user.trim());
       const password = pass.trim();
@@ -36,11 +51,7 @@ async function main(){
           currentUser = user;
           library.SetCurrentUser(user);
 
-          // Notification Check at every login
-          let notif = library.hasNotification(username);
-          if (notif.length > 0) appendToOutput(notif);
-
-          // Start the Library Function
+          // Start the Library Function when Creds are valid
           library.Start();
 
         } else {
@@ -78,6 +89,7 @@ async function main(){
 
     });
 
+    // When the Logout request is send
     app.get('/api/logout', (req, res) => {
           if (currentUser) {
             currentUser = null;
@@ -88,6 +100,18 @@ async function main(){
             res.status(404).json({ error: 'No user logged in' });
           }
 
+    });
+
+    // When the Reset request is send
+    app.post('/api/reset', (req, res) => {
+        currentUser = null;
+        library.SetCurrentUser(null);
+        output = "";
+        pendingResolve = null;
+        library = new LibraryProgram();  // Reset the Library States
+        library.InitializeLibrary();
+        library.InitializeUsers();
+        res.json({ message: 'Items reset' });
     });
 
     // Start server
@@ -294,7 +318,7 @@ class LibraryProgram {
         let msg = "";
         for (let i = 0; i < this.GetCatalogueSize(); i++) {
             const book = this.GetBook(i);
-            if (book.holdList.length > 0 && book.holdList[0] === username) {
+            if (book.holdList.length > 0 && book.holdList[0] === username && book.borrowId != this.GetUserId(username)) {
                 msg += `NOTICE: The book ${book.title} is now available.\n`;
             }
         }
@@ -337,7 +361,13 @@ class LibraryProgram {
     }
 
     async Start() {
+
+        // Notification Check at every login
+        let notif = this.hasNotification(this.currentUser.username);
+        if (notif.length > 0) appendToOutput(notif);
+
         while (true) {
+
             appendToOutput("----- MAIN MENU -----");
             appendToOutput("1. Borrow a book");
             appendToOutput("2. Return a book");

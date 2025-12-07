@@ -36,6 +36,13 @@
             }
         }
 
+        // Allow Enter key to submit
+        itemInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                submitButton.click();
+            }
+        });
+
         // When Button is Submitted, receive the output data from API
         submitButton.addEventListener('click', async () => {
             itemList.innerHTML = '';
