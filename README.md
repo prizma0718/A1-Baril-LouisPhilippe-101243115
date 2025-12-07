@@ -1,3 +1,6 @@
+# Louis-Philippe Baril
+# \#101243115
+
 ## Setup Instructions
 1. Install dependencies: npm install
 2. Install express: npm install express
