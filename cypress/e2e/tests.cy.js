@@ -18,6 +18,9 @@ describe('Library Book Management', () => {
   // Test Scenario 1
   it('should test the basic borrow-return cycle with two users and one book', () => {
 
+    // 1. BOOK BORROWING PROCESS AS ALICE
+    // CHECK IF THE BOOK HAS BEEN SUCCESSFULLY BORROWED WITH THE CORRESPONDING STATUS
+
     // Login as alice
     cy.login('alice','pass123');
 
@@ -64,6 +67,9 @@ describe('Library Book Management', () => {
     cy.get('#logoutButton').click();
     cy.url().should('include', '/login.html');
 
+    // 2. BOOK BORROWING PROCESS AS BOB
+    // MAKE SURE THAT BOB CANNOT BORROW THE BOOK BORROWED BY ALICE
+
     // Now Login as bob
     cy.login('bob','pass456');
 
@@ -87,6 +93,9 @@ describe('Library Book Management', () => {
     // Make sure that we are on login screen
     cy.get('#logoutButton').click();
     cy.url().should('include', '/login.html');
+
+    // 3. BOOK RETURNING PROCESS AS ALICE
+    // SO THAT THE BOOK WILL BECOME AVAILABLE
 
     // Now login as alice
     cy.login('alice','pass123');
@@ -120,6 +129,9 @@ describe('Library Book Management', () => {
     // Make sure that we are on login screen
     cy.get('#logoutButton').click();
     cy.url().should('include', '/login.html');
+
+    // 4. BOOK BORROWING PROCESS AS BOB
+    // SO THAT BOB WILL BORROW THE RETURNED BOOK FROM ALICE
 
     // Login as bob
     cy.login('bob','pass456');
@@ -166,6 +178,9 @@ describe('Library Book Management', () => {
   // Test Scenario 2
   it('should test the hold queue system with three users competing for the same book', () => {
 
+        // 1. BOOK BORROWING PROCESS AS ALICE
+        // SO THAT ALICE WILL BORROW A BOOK THAT OTHERS WILL HOLD IT LATER
+
         // Login as alice
         cy.login('alice','pass123');
 
@@ -204,6 +219,9 @@ describe('Library Book Management', () => {
         cy.get('#logoutButton').click();
         cy.url().should('include', '/login.html');
 
+        // 2. BOOK HOLDING PROCESS AS BOB
+        // SO THAT BOB WILL HOLD THAT BOOK
+
         // Login as bob
         cy.login('bob','pass456');
 
@@ -232,6 +250,9 @@ describe('Library Book Management', () => {
         cy.get('#logoutButton').click();
         cy.url().should('include', '/login.html');
 
+        // 3. HOLDING PROCESS AS CHARLIE
+        // SO THAT CHARLIE WILL HOLD THAT BOOK
+
         // Login as charlie
         cy.login('charlie','pass789');
 
@@ -259,6 +280,9 @@ describe('Library Book Management', () => {
         // So that we can login as another user
         cy.get('#logoutButton').click();
         cy.url().should('include', '/login.html');
+
+        // 4. BOOK RETURNING PROCESS AS ALICE
+        // SO THAT THE BOOK WILL BE AVAILABLE FOR BOB THEN CHARLIE
 
         // Login as alice
         cy.login('alice','pass123');
@@ -294,6 +318,9 @@ describe('Library Book Management', () => {
         cy.get('#logoutButton').click();
         cy.url().should('include', '/login.html');
 
+        // 5. BOOK BORROWING PROCESS AS CHARLIE
+        // CHARLIE SHOULD NOT BE ABLE TO BORROW THAT BOOK YET
+
         // Login as Charlie
         cy.login('charlie','pass789');
 
@@ -323,6 +350,9 @@ describe('Library Book Management', () => {
         // So that we can login as another user
         cy.get('#logoutButton').click();
         cy.url().should('include', '/login.html');
+
+        // 6. BOOK BORROWING PROCESS AS BOB
+        // BOB SHOULD BE ABLE TO BORROW THAT BOOK NOW
 
         // Now login as bob
         cy.login('bob','pass456');
@@ -357,6 +387,9 @@ describe('Library Book Management', () => {
         // So we can check if the book is listed with the right details
         cy.get('#itemList').should('contain', '3 | 1984 | George Orwell | Checked Out, Due: ' + returnDate);
 
+        // 7. BOOK RETURNING PROCESS AS BOB
+        // BOB WILL RETURN THE BOOK SO THAT CHARLIE WILL BE ABLE TO BORROW IT
+
         // Return the book
         cy.get('#itemInput').type('3');
         cy.get('#submitButton').click();
@@ -371,6 +404,9 @@ describe('Library Book Management', () => {
         // So that we can login as another user
         cy.get('#logoutButton').click();
         cy.url().should('include', '/login.html');
+
+        // 8. BOOK BORROWING PROCESS AS CHARLIE
+        // CHARLIE SHOULD BE ABLE TO BORROW THAT BOOK NOW
 
         // Login as charlie
         cy.login('charlie','pass789');
@@ -405,6 +441,9 @@ describe('Library Book Management', () => {
 
   // Test Scenario 3
   it('should test the interaction between borrowing limits and holds', () => {
+
+    // 1. BOOK BORROWING PROCESS AS ALICE
+    // ALICE WILL BORROW 3 BOOKS WHICH IS THE MAXIMUM LIMIT
 
     // Login as alice
     cy.login('alice','pass123');
@@ -468,6 +507,9 @@ describe('Library Book Management', () => {
     cy.get('#logoutButton').click();
     cy.url().should('include', '/login.html');
 
+    // 2. BOOK HOLDING PROCESS AS BOB
+    // BOB WILL HOLD A BOOK THAT WILL BE AVAILABLE LATER
+
     // Login as Bob
     cy.login('bob','pass456');
 
@@ -487,6 +529,9 @@ describe('Library Book Management', () => {
     // So that we can login as another user
     cy.get('#logoutButton').click();
     cy.url().should('include', '/login.html');
+
+    // 3. BOOK BORROWING PROCESS AS ALICE
+    // ALICE WILL NOT BE ABLE TO BORROW THE BOOK BUT WILL HOLD IT THIS TIME
 
     // Login as alice
     cy.login('alice','pass123');
@@ -520,6 +565,9 @@ describe('Library Book Management', () => {
     // So we can check that the book is now on hold from the user
     cy.get('#itemList').should('contain', 'Book on hold.');
 
+    // 4. BOOK RETURNING PROCESS AS ALICE
+    // ALICE WILL RETURN A BOOK AND WILL BE ABLE TO BORROW ANOTHER ONE
+
     // Return one of the book
     cy.get('#itemInput').type('2');
     cy.get('#submitButton').click();
@@ -540,6 +588,9 @@ describe('Library Book Management', () => {
     // So we can check that alice is not at maximum capacity of borrowing
     cy.get('#itemList').should('contain', 'Number of borrowed books: 2');
 
+    // 5. BOOK BORROWING PROCESS AS ALICE
+    // ALICE WILL BORROW A BOOK SINCE UNDER THE LIMIT
+
     // Borrow one book
     cy.get('#itemInput').type('2');
     cy.get('#submitButton').click();
@@ -554,6 +605,9 @@ describe('Library Book Management', () => {
     // So that we can login as another user
     cy.get('#logoutButton').click();
     cy.url().should('include', '/login.html');
+
+    // 6. BOOK BORROWING PROCESS AS BOB
+    // BOB WILL BORROW THE HELD BOOK THAT IS NOW AVAILABLE
 
     // Login as bob
     cy.login('bob','pass456');
